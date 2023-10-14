@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
 import React from 'react'
+import Header from '../components/GUI/Header/Header'
 
 export default function PointScreen() {
+    const headerText = 'Sản phẩm';
     return (
         <View>
-            <SafeAreaView></SafeAreaView>
-            <Text>Bach</Text>
+            <Header headerText={headerText}/>
         </View>
     )
 }

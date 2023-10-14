@@ -5,7 +5,8 @@ import { faAngleLeft, faHouse } from '@fortawesome/free-solid-svg-icons';
 import { SafeAreaView } from "react-native";
 
 function Header({headerText, navigation}) { 
-    const [name, setName] = useState(headerText)
+    const [name, setName] = useState(headerText);
+    const isPasswordRecovery = headerText === "Yêu cầu lấy lại mật khẩu";
     const goBack = () => {
         navigation.goBack(); 
     }
@@ -14,15 +15,19 @@ function Header({headerText, navigation}) {
         <View style={styles.container}>
             <SafeAreaView>
                 <View style={styles.main}>
-                    <TouchableOpacity onPress={goBack}>
-                        <FontAwesomeIcon icon={faAngleLeft} size={20} color="#fff"/>
-                    </TouchableOpacity>
+                    { isPasswordRecovery &&    
+                        <TouchableOpacity onPress={goBack}>
+                            <FontAwesomeIcon icon={faAngleLeft} size={20} color="#fff"/>
+                        </TouchableOpacity>
+                    }
                     
-                    <Text style={styles.text}>{name}</Text>
+                    <Text style={[styles.text, !isPasswordRecovery && styles.centerText]}>{name}</Text>
                     
-                    <TouchableOpacity onPress={goBack}>
-                        <FontAwesomeIcon icon={faHouse} size={23}  color="#fff"/>
-                    </TouchableOpacity>
+                    { isPasswordRecovery &&
+                        <TouchableOpacity onPress={goBack}>
+                            <FontAwesomeIcon icon={faHouse} size={23}  color="#fff"/>
+                        </TouchableOpacity>
+                    }
                 </View>    
             </SafeAreaView>
         </View>
@@ -48,6 +53,10 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: 'bold',
         fontSize: 16.5
+    },
+    centerText: {
+        flex: 1, 
+        textAlign: 'center',
     },
 })
 

@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faQrcode, faComments, faBars, faUnlockKeyhole,faEye,faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import { Dimensions } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import Tabs from '../Navigation/tabs/tabs'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
