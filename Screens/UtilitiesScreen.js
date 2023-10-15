@@ -1,15 +1,16 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import Header from '../components/GUI/Header/Header'
 
-export default function Utilities() {
+const UtilitiesScreen = () => {
+    const headerText = "Tiện ích"
     return (
         <View>
-            <SafeAreaView>
-                <Text>Bach</Text>
-    
-            </SafeAreaView>
+            <Header headerText={headerText}/>
         </View>
     )
 }
+
+export default UtilitiesScreen
 
 const styles = StyleSheet.create({})

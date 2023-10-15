@@ -13,6 +13,10 @@ function Header({headerText, navigation}) {
 
     return (
         <View style={styles.container}>
+            <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
+                <View style={{backgroundColor: '#fff',height: '150%' ,width: "19%",marginTop: '3.5%',marginLeft: '3.5%',borderRadius: 10}}></View>
+                <View style={{backgroundColor: '#fff',height: '150%' ,width: "19%",marginTop: '3.5%',marginRight: '3.5%',borderRadius: 10}}></View>
+            </View>
             <SafeAreaView>
                 <View style={styles.main}>
                     { isPasswordRecovery &&    
@@ -38,7 +42,6 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         backgroundColor: '#0e27ce',
-        paddingTop: '15%', 
     },
 
     main: {

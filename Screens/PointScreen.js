@@ -3,6 +3,7 @@ import React from 'react'
 import Header from '../components/GUI/Header/Header'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCartShopping, faChevronRight, faPercent } from '@fortawesome/free-solid-svg-icons';
+import Item from '../components/GUI/Item/Item';
 
 const pointItems = [
     {
@@ -23,20 +24,9 @@ export default function PointScreen() {
             <ScrollView style={styles.container}>
                 {
                     pointItems.map((pointItem,index) => (
-                        <TouchableOpacity style={styles.point} key={index}>
-                            <View style={{flexDirection: 'row', justifyContent:'space-between',alignItems: 'center',paddingHorizontal: 15,paddingVertical: 23}}>    
-                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                    <FontAwesomeIcon icon={pointItem.icon} size={35} style={{color:"#0d22cc"}}/>
-                                    <Text style={{fontSize: 16, marginLeft: 15,fontWeight: '600'}}>{pointItem.name}</Text>
-                                </View>
-                                <View>
-                                    <FontAwesomeIcon icon={faChevronRight} size={16} style={{color:"#0d22cc"}}/> 
-                                </View>
-                            </View>
-                        </TouchableOpacity>
+                        <Item key={index} icon={pointItem.icon} name={pointItem.name}/>
                     ))
                 }
-                
             <View>
                 <Image source={require('../assets/point.jpg')} style={{width: '100%',marginTop: -50}} resizeMode='contain'/>
             </View>

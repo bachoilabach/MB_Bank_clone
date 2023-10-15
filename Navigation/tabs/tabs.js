@@ -66,7 +66,7 @@ const Tabs = ()=>{
                                 <TouchableOpacity 
                                     style={{paddingTop : 10 }}
                                     onPress={() => {
-                                        navigation.navigate(screen.name); // Chuyển hướng khi bấm vào icon
+                                        navigation.navigate(screen.name); 
                                     }}
                                 >
                                     <View style={{flexDirection: 'column', alignItems: 'center',justifyContent: 'center'}}>

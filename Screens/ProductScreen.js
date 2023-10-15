@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 import React from 'react'
 import Header from '../components/GUI/Header/Header'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCartShopping, faChartLine, faChevronRight, faCoins, faCreditCard, faCreditCardAlt, faDollarSign, faFileInvoiceDollar, faGift, faHandHoldingDollar, faHandPointUp, faHandPointer, faHandshake, faMobileScreen, faMoneyBillTransfer, faPeopleRoof, faPiggyBank } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faChartLine, faCoins, faCreditCard, faCreditCardAlt, faDollarSign, faFileInvoiceDollar, faGift, faHandHoldingDollar, faHandPointUp, faHandPointer, faHandshake, faMobileScreen, faMoneyBillTransfer, faPeopleRoof, faPiggyBank } from '@fortawesome/free-solid-svg-icons';
+import Item from '../components/GUI/Item/Item';
 
 const products = [
     {
@@ -88,17 +88,7 @@ export default function ProductScreen() {
             <ScrollView style={styles.container}>
                 {
                     products.map((product,index) => (
-                        <TouchableOpacity style={styles.product}v key={index}>
-                            <View style={{flexDirection: 'row', justifyContent:'space-between',alignItems: 'center',paddingHorizontal: 15,paddingVertical: 23}}>    
-                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                    <FontAwesomeIcon icon={product.icon} size={35} style={{color:"#0d22cc"}}/>
-                                    <Text style={{fontSize: 16, marginLeft: 15,fontWeight: '600'}}>{product.nameProduct}</Text>
-                                </View>
-                                <View>
-                                    <FontAwesomeIcon icon={faChevronRight} size={16} style={{color:"#0d22cc"}}/> 
-                                </View>
-                            </View>
-                        </TouchableOpacity>
+                        <Item key={index} icon={product.icon} name={product.nameProduct}/>
                     ))
                 }
             </ScrollView>
