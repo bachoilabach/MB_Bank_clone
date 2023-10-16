@@ -1,6 +1,5 @@
 import React from "react";
-import { StatusBar } from 'expo-status-bar';
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import { View, StyleSheet, SafeAreaView, StatusBar } from "react-native";
 import AppNavigator from './Navigation/index'; 
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './Screens/HomeScreen';
@@ -13,7 +12,7 @@ export default function App() {
         <AppNavigator />
         {/* <HomeScreen/> */}
         {/* <Tabs /> */}
-        <StatusBar style="auto" />
+        <StatusBar style="auto" barStyle="light-content"/>
       </View>
     </NavigationContainer>
   );

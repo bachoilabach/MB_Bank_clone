@@ -14,12 +14,12 @@ function Header({headerText, navigation}) {
     return (
         <View style={styles.container}>
             <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
-                <View style={{backgroundColor: '#fff',height: '150%' ,width: "19%",marginTop: '3.5%',marginLeft: '3.5%',borderRadius: 10}}></View>
-                <View style={{backgroundColor: '#fff',height: '150%' ,width: "19%",marginTop: '3.5%',marginRight: '3.5%',borderRadius: 10}}></View>
+                {/* <View style={{backgroundColor: '#fff',height: '150%' ,width: "19%",marginTop: '3.5%',marginLeft: '3.5%',borderRadius: 10}}></View>
+                <View style={{backgroundColor: '#fff',height: '150%' ,width: "19%",marginTop: '3.5%',marginRight: '3.5%',borderRadius: 10}}></View> */}
             </View>
             <SafeAreaView>
                 <View style={styles.main}>
-                    { isPasswordRecovery &&    
+                    { isPasswordRecovery &&
                         <TouchableOpacity onPress={goBack}>
                             <FontAwesomeIcon icon={faAngleLeft} size={20} color="#fff"/>
                         </TouchableOpacity>
