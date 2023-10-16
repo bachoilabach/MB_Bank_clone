@@ -1,20 +1,37 @@
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Switch, Image } from 'react-native'
+import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 //* Item for ProductScreen, PointScreen, GiftScreen, UtilitiesScreen
 
-const Item = ({icon,name}) => {
+const Item = ({ icon, name, index, headerText, image }) => {
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const title = headerText === 'Tiện ích';
     return (
         <TouchableOpacity style={styles.point}>
-            <View style={{flexDirection: 'row', justifyContent:'space-between',alignItems: 'center',paddingHorizontal: 15,paddingVertical: 23}}>    
-                <View style={{flexDirection: 'row', alignItems: 'center',width: '80%'}}>
-                    <FontAwesomeIcon icon={icon} size={35} style={{color:"#0d22cc"}}/>
-                    <Text style={{fontSize: 16, marginLeft: 15,fontWeight: '600'}}>{name}</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 15, paddingVertical: 23 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', width: '80%' }}>
+                    {!icon ? (
+                        <Image source={image} style={{ width: 35, height: 35 }} />
+                        ) : (
+                        <FontAwesomeIcon icon={icon} size={35} style={{ color: "#0d22cc" }} />
+                    )}
+                    <Text style={{ fontSize: 16, marginLeft: 15, fontWeight: '600' }}>{name}</Text>
                 </View>
                 <View>
-                    <FontAwesomeIcon icon={faChevronRight} size={16} style={{color:"#0d22cc"}}/> 
+                    {index < 3 ? (
+                        <Switch
+                            trackColor={{ false: '#767577', true: '#81b0ff' }}
+                            thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={toggleSwitch}
+                            value={isEnabled}
+                        />
+                    ) : (
+                        !title && <FontAwesomeIcon icon={faChevronRight} size={16} style={{ color: "#0d22cc" }} />
+                    )}
                 </View>
             </View>
         </TouchableOpacity>
