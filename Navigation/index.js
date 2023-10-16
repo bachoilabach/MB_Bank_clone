@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "../Screens/LoginScreen";
 import ForgotPasswordScreen from "../Screens/ForgotPasswordScreen";
 import Tabs from '../Navigation/tabs/tabs'
+import MoneyTranferScreen from "../Screens/MoneyTranferScreen";
 const Stack = createStackNavigator();
 
 function AppNavigator() {
@@ -24,6 +25,13 @@ function AppNavigator() {
             <Stack.Screen 
                 name="Tabs" 
                 component={Tabs} 
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name="MoneyTransfer" 
+                component={MoneyTranferScreen} 
                 options={{
                     headerShown: false,
                 }}

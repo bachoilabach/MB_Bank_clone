@@ -6,28 +6,24 @@ import { SafeAreaView } from "react-native";
 
 function Header({headerText, navigation}) { 
     const [name, setName] = useState(headerText);
-    const isPasswordRecovery = headerText === "Yêu cầu lấy lại mật khẩu";
+    const tilte = headerText === "Yêu cầu lấy lại mật khẩu" || "Chuyển tiền" || "Nạp tiền điện thoại";
     const goBack = () => {
         navigation.goBack(); 
     }
 
     return (
         <View style={styles.container}>
-            <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
-                <View style={{backgroundColor: '#fff',height: '150%' ,width: "19%",marginTop: '3.5%',marginLeft: '3.5%',borderRadius: 10}}></View>
-                <View style={{backgroundColor: '#fff',height: '150%' ,width: "19%",marginTop: '3.5%',marginRight: '3.5%',borderRadius: 10}}></View>
-            </View>
             <SafeAreaView>
                 <View style={styles.main}>
-                    { isPasswordRecovery &&    
+                    { tilte &&    
                         <TouchableOpacity onPress={goBack}>
                             <FontAwesomeIcon icon={faAngleLeft} size={20} color="#fff"/>
                         </TouchableOpacity>
                     }
                     
-                    <Text style={[styles.text, !isPasswordRecovery && styles.centerText]}>{name}</Text>
+                    <Text style={[styles.text, !tilte && styles.centerText]}>{name}</Text>
                     
-                    { isPasswordRecovery &&
+                    { tilte &&
                         <TouchableOpacity onPress={goBack}>
                             <FontAwesomeIcon icon={faHouse} size={23}  color="#fff"/>
                         </TouchableOpacity>
