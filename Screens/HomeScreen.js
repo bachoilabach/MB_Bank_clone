@@ -355,7 +355,7 @@ export default function HomeScreen() {
 						{marketItems.map((marketItem, index) => (
 							<TouchableOpacity
 								key={index}
-								style={{ alignItems: "center", paddingVertical: 15 }}>
+								style={{ alignItems: "center", paddingVertical: 15, width: '25%' }}>
 								<Image
 									source={marketItem.image}
 									style={{ width: 40, height: 40, borderRadius: 5 }}
