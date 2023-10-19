@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Header from '../components/GUI/Header/Header'
 
-const UtilitiesScreen = () => {
+const UtilitiesScreen = ({navigation}) => {
     const headerText = "Tiện ích"
     return (
         <View>

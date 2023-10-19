@@ -95,7 +95,7 @@ const marketItems = [
 	},
 ];
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
 	const navigation = useNavigation();
 	const handlePress = (index) => {
 		const selectedFeature = features[index];
