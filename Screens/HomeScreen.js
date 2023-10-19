@@ -101,6 +101,8 @@ export default function HomeScreen() {
 		const selectedFeature = features[index];
 		if (selectedFeature.text === "Chuyển tiền") {
 			navigation.navigate("MoneyTransfer");
+		} else if (selectedFeature.text === 'Nạp điện thoại') {
+			navigation.navigate('RechargePhone');
 		}
 	};
 
@@ -172,7 +174,7 @@ export default function HomeScreen() {
 
 					<View style={styles.heloUser}>
 						<Text style={styles.hello}>Xin chào,</Text>
-						<Text style={styles.userName}>TRAN VIET BACH</Text>
+						<Text style={styles.userName}>LE ANH DUY</Text>
 						<View
 							style={{
 								flexDirection: "row",
@@ -246,7 +248,7 @@ export default function HomeScreen() {
 										<Text style={{ fontWeight: "700", paddingRight: 5 }}>
 											Tài khoản nguồn
 										</Text>
-										<Text style={{ color: "#b6e1f6" }}>0346331968</Text>
+										<Text style={{ color: "#b6e1f6" }}>408200388888</Text>
 									</View>
 									<View style={{ flexDirection: "row", marginRight: 2 }}>
 										<Text
@@ -355,7 +357,7 @@ export default function HomeScreen() {
 						{marketItems.map((marketItem, index) => (
 							<TouchableOpacity
 								key={index}
-								style={{ alignItems: "center", paddingVertical: 15 }}>
+								style={{ alignItems: "center", paddingVertical: 15, width: '25%' }}>
 								<Image
 									source={marketItem.image}
 									style={{ width: 40, height: 40, borderRadius: 5 }}

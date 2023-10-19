@@ -14,14 +14,14 @@ const Item = ({ icon, name, index, headerText, image }) => {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 15, paddingVertical: 23 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', width: '80%' }}>
                     {!icon ? (
-                        <Image source={image} style={{ width: 35, height: 35 }} />
+                        <Image source={image} style={{ width: 50, height: 50 }} />
                         ) : (
                         <FontAwesomeIcon icon={icon} size={35} style={{ color: "#0d22cc" }} />
                     )}
                     <Text style={{ fontSize: 16, marginLeft: 15, fontWeight: '600' }}>{name}</Text>
                 </View>
                 <View>
-                    {index < 3 ? (
+                    {(index < 3 || index == 7) ? (
                         <Switch
                             trackColor={{ false: '#767577', true: '#81b0ff' }}
                             thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
