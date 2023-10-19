@@ -79,7 +79,7 @@ const products = [
     },    
 ];
 
-export default function ProductScreen() {
+export default function ProductScreen({navigation}) {
     const headerText = 'Sản phẩm';
 
     return (
