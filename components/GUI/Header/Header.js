@@ -12,7 +12,7 @@ function Header({ headerText, navigation }) {
 		headerText === "Nạp tiền điện thoại" ||
         headerText === "Giao dịch tách lệnh";
 	const goBack = () => {
-		navigation.goBack();
+		navigation.pop();
 	};
 
 	return (

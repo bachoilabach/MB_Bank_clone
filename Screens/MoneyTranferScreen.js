@@ -49,7 +49,7 @@ const MoneyTranferScreen = () => {
 	};
 	return (
 		<View>
-			<Header headerText={headerText} />
+			<Header navigation={navigation} headerText={headerText} />
 			{/* Top */}
 			<View style={{ padding: 15 }}>
 				<View style={{ flexDirection: "row", justifyContent: "space-between" }}>

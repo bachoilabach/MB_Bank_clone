@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -22,8 +22,8 @@ import {
 import { TouchableOpacity } from "react-native";
 import { ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-// import { LinearGradient } from 'expo-linear-gradient';
-
+import features from '../data/Home/features';
+import marketItems from '../data/Home/MarketItems'
 const min = 8000000000;
 const max = 10000000000;
 
@@ -33,67 +33,67 @@ const formattedNumber = randomNumber.toLocaleString("vi-VN");
 
 console.log(formattedNumber);
 
-const features = [
-	{
-		icon: faMoneyBillTransfer,
-		text: "Chuyển tiền",
-	},
-	{
-		icon: faMobileButton,
-		text: "Nạp điện thoại",
-	},
-	{
-		icon: faPiggyBank,
-		text: "Tiền gửi & Đầu tư",
-	},
-	{
-		icon: faReceipt,
-		text: "Thanh toán",
-	},
-	{
-		icon: faHandHoldingDollar,
-		text: "Vay Online",
-	},
-	{
-		icon: faCreditCard,
-		text: "Dịch vụ thẻ",
-	},
-];
+// const features = [
+// 	{
+// 		icon: faMoneyBillTransfer,
+// 		text: "Chuyển tiền",
+// 	},
+// 	{
+// 		icon: faMobileButton,
+// 		text: "Nạp điện thoại",
+// 	},
+// 	{
+// 		icon: faPiggyBank,
+// 		text: "Tiền gửi & Đầu tư",
+// 	},
+// 	{
+// 		icon: faReceipt,
+// 		text: "Thanh toán",
+// 	},
+// 	{
+// 		icon: faHandHoldingDollar,
+// 		text: "Vay Online",
+// 	},
+// 	{
+// 		icon: faCreditCard,
+// 		text: "Dịch vụ thẻ",
+// 	},
+// ];
 
-const marketItems = [
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Bất động sản",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Flash Sale",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Data 3G/4G",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Thẻ game 247",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Thẻ game 365",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Thẻ điện thoại",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Nạp điện thoại",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Xem thêm",
-	},
-];
+// const marketItems = [
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Bất động sản",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Flash Sale",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Data 3G/4G",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Thẻ game 247",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Thẻ game 365",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Thẻ điện thoại",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Nạp điện thoại",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Xem thêm",
+// 	},
+// ];
 
 export default function HomeScreen() {
 	const navigation = useNavigation();
@@ -104,6 +104,8 @@ export default function HomeScreen() {
 		}
 	};
 
+	const [featuresData, setFeatureData] = useState(features)
+	const [marketItemsData, setMarketItemsData] = useState(marketItems)
 	const [showAccount, setShowAccount] = useState("Xem tài khoản");
 	const [chevronIcon, setChevronIcon] = useState(faChevronDown);
 	const [isViewVisible, setIsViewVisible] = useState(false);
@@ -121,6 +123,10 @@ export default function HomeScreen() {
 			setTranY(-30);
 		}
 	};
+
+	useEffect(() => {
+		setFeatureData();
+	},[])
 
 	return (
 		<ScrollView style={{ flex: 1 }}>
@@ -332,7 +338,7 @@ export default function HomeScreen() {
 						flexWrap: "wrap",
 						justifyContent: "space-between",
 					}}>
-					{features.map((feature, index) => (
+					{featuresData.map((feature, index) => (
 						<TouchableOpacity
 							style={styles.mainFeature}
 							key={index}
@@ -352,7 +358,7 @@ export default function HomeScreen() {
 
 				<View>
 					<View style={styles.market}>
-						{marketItems.map((marketItem, index) => (
+						{marketItemsData.map((marketItem, index) => (
 							<TouchableOpacity
 								key={index}
 								style={{ alignItems: "center", paddingVertical: 15, width: '25%' }}>

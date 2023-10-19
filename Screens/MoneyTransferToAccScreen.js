@@ -6,10 +6,10 @@ import { Image } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronDown, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
-const MoneyTransferToAccScreen = () => {
+const MoneyTransferToAccScreen = ({navigation}) => {
 	return (
 		<View>
-			<Header headerText={"Chuyển tiền"} />
+			<Header navigation={navigation} headerText={"Chuyển tiền"} />
 			<View style={{ padding: 15 }}>
 				<View>
 					<Text style={{ fontSize: 17 }}>Từ tài khoản nguồn</Text>

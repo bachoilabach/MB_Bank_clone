@@ -2,10 +2,10 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Header from "../components/GUI/Header/Header";
 
-const SplitTradeScreen = () => {
+const SplitTradeScreen = ({navigation}) => {
 	return (
 		<View>
-			<Header headerText={"Giao dịch tách lệnh"}/>
+			<Header navigation={navigation} headerText={"Giao dịch tách lệnh"}/>
 		</View>
 	);
 };
