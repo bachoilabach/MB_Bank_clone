@@ -20,10 +20,8 @@ import {
 	faCreditCard,
 } from "@fortawesome/free-solid-svg-icons";
 import { TouchableOpacity } from "react-native";
-import { ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import features from '../data/Home/features';
-import marketItems from '../data/Home/MarketItems'
+
 const min = 8000000000;
 const max = 10000000000;
 
@@ -33,69 +31,71 @@ const formattedNumber = randomNumber.toLocaleString("vi-VN");
 
 console.log(formattedNumber);
 
-// const features = [
-// 	{
-// 		icon: faMoneyBillTransfer,
-// 		text: "Chuyển tiền",
-// 	},
-// 	{
-// 		icon: faMobileButton,
-// 		text: "Nạp điện thoại",
-// 	},
-// 	{
-// 		icon: faPiggyBank,
-// 		text: "Tiền gửi & Đầu tư",
-// 	},
-// 	{
-// 		icon: faReceipt,
-// 		text: "Thanh toán",
-// 	},
-// 	{
-// 		icon: faHandHoldingDollar,
-// 		text: "Vay Online",
-// 	},
-// 	{
-// 		icon: faCreditCard,
-// 		text: "Dịch vụ thẻ",
-// 	},
-// ];
 
-// const marketItems = [
-// 	{
-// 		image: require("../assets/bee.jpg"),
-// 		name: "Bất động sản",
-// 	},
-// 	{
-// 		image: require("../assets/bee.jpg"),
-// 		name: "Flash Sale",
-// 	},
-// 	{
-// 		image: require("../assets/bee.jpg"),
-// 		name: "Data 3G/4G",
-// 	},
-// 	{
-// 		image: require("../assets/bee.jpg"),
-// 		name: "Thẻ game 247",
-// 	},
-// 	{
-// 		image: require("../assets/bee.jpg"),
-// 		name: "Thẻ game 365",
-// 	},
-// 	{
-// 		image: require("../assets/bee.jpg"),
-// 		name: "Thẻ điện thoại",
-// 	},
-// 	{
-// 		image: require("../assets/bee.jpg"),
-// 		name: "Nạp điện thoại",
-// 	},
-// 	{
-// 		image: require("../assets/bee.jpg"),
-// 		name: "Xem thêm",
-// 	},
-// ];
 
-export default function HomeScreen({navigation}) {
+const features = [
+	{
+		icon: faMoneyBillTransfer,
+		text: "Chuyển tiền",
+	},
+	{
+		icon: faMobileButton,
+		text: "Nạp điện thoại",
+	},
+	{
+		icon: faPiggyBank,
+		text: "Tiền gửi & Đầu tư",
+	},
+	{
+		icon: faReceipt,
+		text: "Thanh toán",
+	},
+	{
+		icon: faHandHoldingDollar,
+		text: "Vay Online",
+	},
+	{
+		icon: faCreditCard,
+		text: "Dịch vụ thẻ",
+	},
+];
+
+const marketItems = [
+	{
+		image: require("../assets/bee.jpg"),
+		name: "Bất động sản",
+	},
+	{
+		image: require("../assets/bee.jpg"),
+		name: "Flash Sale",
+	},
+	{
+		image: require("../assets/bee.jpg"),
+		name: "Data 3G/4G",
+	},
+	{
+		image: require("../assets/bee.jpg"),
+		name: "Thẻ game 247",
+	},
+	{
+		image: require("../assets/bee.jpg"),
+		name: "Thẻ game 365",
+	},
+	{
+		image: require("../assets/bee.jpg"),
+		name: "Thẻ điện thoại",
+	},
+	{
+		image: require("../assets/bee.jpg"),
+		name: "Nạp điện thoại",
+	},
+	{
+		image: require("../assets/bee.jpg"),
+		name: "Xem thêm",
+	},
+];
+
+export default function HomeScreen() {
 	const navigation = useNavigation();
 	const handlePress = (index) => {
 		const selectedFeature = features[index];
@@ -104,8 +104,8 @@ export default function HomeScreen({navigation}) {
 		}
 	};
 
-	const [featuresData, setFeatureData] = useState(features)
-	const [marketItemsData, setMarketItemsData] = useState(marketItems)
+	const [featuresData, setFeatureData] = useState(features);
+	const [marketItemsData, setMarketItemsData] = useState(marketItems);
 	const [showAccount, setShowAccount] = useState("Xem tài khoản");
 	const [chevronIcon, setChevronIcon] = useState(faChevronDown);
 	const [isViewVisible, setIsViewVisible] = useState(false);
@@ -126,7 +126,7 @@ export default function HomeScreen({navigation}) {
 
 	useEffect(() => {
 		setFeatureData();
-	},[])
+	}, []);
 
 	return (
 		<ScrollView style={{ flex: 1 }}>
@@ -338,12 +338,16 @@ export default function HomeScreen({navigation}) {
 						flexWrap: "wrap",
 						justifyContent: "space-between",
 					}}>
-					{featuresData.map((feature, index) => (
+					{features.map((feature, index) => (
 						<TouchableOpacity
 							style={styles.mainFeature}
 							key={index}
 							onPress={() => handlePress(index)}>
-							<FontAwesomeIcon icon={feature.icon} size={35} color="#0d22cc" />
+							<FontAwesomeIcon
+								icon={feature.icon}
+								size={35}
+								color="#0d22cc"
+							/>
 							<Text style={{ fontSize: 16, marginTop: 10 }}>
 								{feature.text}
 							</Text>
@@ -358,10 +362,14 @@ export default function HomeScreen({navigation}) {
 
 				<View>
 					<View style={styles.market}>
-						{marketItemsData.map((marketItem, index) => (
+						{marketItems.map((marketItem, index) => (
 							<TouchableOpacity
 								key={index}
-								style={{ alignItems: "center", paddingVertical: 15, width: '25%' }}>
+								style={{
+									alignItems: "center",
+									paddingVertical: 15,
+									width: "25%",
+								}}>
 								<Image
 									source={marketItem.image}
 									style={{ width: 40, height: 40, borderRadius: 5 }}
