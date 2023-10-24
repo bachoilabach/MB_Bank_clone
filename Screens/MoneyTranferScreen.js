@@ -11,6 +11,7 @@ import {
 	faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigation } from "@react-navigation/native";
+import ButtonInMoneyTransferScreen from "../components/GUI/Button/ButtonInMoneyTransferScreen";
 
 const listBtn = [
 	{
@@ -24,6 +25,19 @@ const listBtn = [
 	},
 ];
 
+const savedList = [
+	{
+		image: require("../assets/Logo_MB_new.png"),
+		nameAccount: "TRAN VIET BACH",
+		accountNumber: "0346331968",
+		bankName: "Quân đội(MB)",
+	},
+];
+
+const recentList = [];
+
+const transactionTemplateList = [];
+
 const MoneyTranferScreen = () => {
 	const headerText = "Chuyển tiền";
 	const [selectedButton, setSelectedButton] = useState({
@@ -31,6 +45,9 @@ const MoneyTranferScreen = () => {
 		"Gần đây": false,
 		"Mẫu giao dịch": false,
 	});
+
+	// * Màu nút
+
 	const handleButtonPress = (buttonName) => {
 		setSelectedButton((prevSelectedButton) => ({
 			...Object.fromEntries(
@@ -38,7 +55,21 @@ const MoneyTranferScreen = () => {
 			),
 			[buttonName]: true,
 		}));
+		setCurrentTab(buttonName);
 	};
+
+	//* Chuyển tab
+
+	const [currentTab, setCurrentTab] = useState("STK đã lưu");
+	let currentList = [];
+	if (currentTab === "STK đã lưu") {
+		currentList = savedList;
+	} else if (currentTab === "Gần đây") {
+		currentList = recentList;
+	} else if (currentTab === "Mẫu giao dịch") {
+		currentList = transactionTemplateList;
+	}
+
 	const navigation = useNavigation();
 	const handlePressSplitTrade = () => {
 		navigation.navigate("SplitTrade");
@@ -80,8 +111,7 @@ const MoneyTranferScreen = () => {
 							width: "48%",
 							alignItems: "center",
 						}}
-						onPress={handlePressSplitTrade}
-					>
+						onPress={handlePressSplitTrade}>
 						<FontAwesomeIcon
 							style={{ color: "#0c2bcc" }}
 							icon={faDollarSign}
@@ -107,8 +137,7 @@ const MoneyTranferScreen = () => {
 							flexDirection: "row",
 							alignItems: "center",
 						}}
-						onPress={handlePressNewBeneficiaries}
-					>
+						onPress={handlePressNewBeneficiaries}>
 						<FontAwesomeIcon
 							style={{ color: "#0c2bcc" }}
 							icon={faUser}
@@ -130,25 +159,12 @@ const MoneyTranferScreen = () => {
 						marginBottom: 15,
 					}}>
 					{listBtn.map((btn, index) => (
-						<TouchableOpacity
+						<ButtonInMoneyTransferScreen
 							key={index}
-							style={{
-								paddingVertical: 10,
-								paddingHorizontal: 15,
-								borderRadius: 20,
-								borderWidth: 1,
-								borderColor: selectedButton[btn.text] ? "#0c2bcc" : "gray",
-							}}
-							onPress={() => handleButtonPress(btn.text)}>
-							<Text
-								style={{
-									color: selectedButton[btn.text] ? "#0c2bcc" : "gray",
-									fontSize: 17,
-									fontWeight: 600,
-								}}>
-								{btn.text}
-							</Text>
-						</TouchableOpacity>
+							btn={btn}
+							selectedButton={selectedButton}
+							handleButtonPress={handleButtonPress}
+						/>
 					))}
 				</View>
 
@@ -180,45 +196,35 @@ const MoneyTranferScreen = () => {
 				{/* Account */}
 
 				<View>
-					<TouchableOpacity
-						style={{
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "space-between",
-							borderBottomWidth: 2,
-							borderBottomColor: "#dcdcde",
-						}}
-					
-					>
-						<View
-							style={{
-								flexDirection: "row",
-								alignItems: "center",
-								paddingVertical: 20,
-							}}>
-							<View>
-								<Image
-									source={require("../assets/bee.jpg")}
-									resizeMode="contain"
-									style={{
-										width: 30,
-										height: 30,
-										margin: 10,
-									}}
-								/>
-							</View>
-							<View>
-								<Text style={{ fontWeight: "bold", fontSize: 18 }}>
-									TRAN VIET BACH
-								</Text>
-								<Text style={{ color: "#d4d4d4" }}>0346331968</Text>
-								<Text style={{ color: "#d4d4d4" }}>Quân đội (MB)</Text>
-							</View>
-						</View>
-						<View>
-							<FontAwesomeIcon icon={faEllipsis} size={24} />
-						</View>
-					</TouchableOpacity>
+					{currentList.length === 0 ? (
+						<Text>Bạn không có dữ liệu</Text>
+					) : (
+						currentList.map((item, index) => (
+							<TouchableOpacity style={styles.account} key={index}>
+								<View style={styles.accountContainer}>
+									<View>
+										<Image
+											source={item.image}
+											resizeMode="contain"
+											style={styles.accountImg}
+										/>
+									</View>
+									<View>
+										<Text style={{ fontWeight: "bold", fontSize: 18 }}>
+											{item.nameAccount}
+										</Text>
+										<Text style={{ color: "#d4d4d4" }}>
+											{item.accountNumber}
+										</Text>
+										<Text style={{ color: "#d4d4d4" }}>{item.bankName}</Text>
+									</View>
+								</View>
+								<View>
+									<FontAwesomeIcon icon={faEllipsis} size={24} />
+								</View>
+							</TouchableOpacity>
+						))
+					)}
 				</View>
 			</View>
 		</View>
@@ -227,4 +233,24 @@ const MoneyTranferScreen = () => {
 
 export default MoneyTranferScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	account: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		borderBottomWidth: 2,
+		borderBottomColor: "#dcdcde",
+	},
+
+	accountContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		paddingVertical: 20,
+	},
+
+	accountImg: {
+		width: 30,
+		height: 30,
+		margin: 10,
+	},
+});
