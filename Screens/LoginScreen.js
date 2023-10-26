@@ -250,7 +250,8 @@ const styles = StyleSheet.create({
 
     faceId:{
         width: 50,
-        height: 50
+        height: 50,
+        tintColor: '#fff'
     },
 
     forgotPasswordContainer: {

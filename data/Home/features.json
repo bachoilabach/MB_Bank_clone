@@ -1,0 +1,26 @@
+[
+	{
+		"icon": "faMoneyBillTransfer",
+		"text": "Chuyển tiền"
+	},
+	{
+		"icon": "faMobileButton",
+		"text": "Nạp điện thoại"
+	},
+	{
+		"icon": "faPiggyBank",
+		"text": "Tiền gửi & Đầu tư"
+	},
+	{
+		"icon": "faReceipt",
+		"text": "Thanh toán"
+	},
+	{
+		"icon": "faHandHoldingDollar",
+		"text": "Vay Online"
+	},
+	{
+		"icon": "faCreditCard",
+		"text": "Dịch vụ thẻ"
+	}
+]

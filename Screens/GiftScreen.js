@@ -16,7 +16,7 @@ const giftItems = [
     },
 ];
 
-export default function GiftScreen() {
+export default function GiftScreen({navigation}) {
     const headerText = "Tích điểm đổi quà";
 
     return (

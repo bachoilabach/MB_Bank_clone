@@ -26,16 +26,16 @@ const ForgotPassword = ({navigation})=>{
     
     const [selectedDocumentType, setSelectedDocumentType] = useState(documentTypes[0].value);
 
-    // const handleKeyboradDissmiss  = ()=>{
-    //     Keyboard.dismiss();
-    // }
+    const handleKeyboradDissmiss  = ()=>{
+        Keyboard.dismiss();
+    }
 
     return (
         <View style={styles.background}>
             <Header navigation={navigation} headerText={headerText}/>
             <View style ={styles.container}>
                 <View style={{flex: 1}}>
-                    <TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={handleKeyboradDissmiss}>
                         <Input 
                             input={inputName} 
                             type={typeDefault}

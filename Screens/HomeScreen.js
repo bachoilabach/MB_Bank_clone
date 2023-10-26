@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -20,9 +20,7 @@ import {
 	faCreditCard,
 } from "@fortawesome/free-solid-svg-icons";
 import { TouchableOpacity } from "react-native";
-import { ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-// import { LinearGradient } from 'expo-linear-gradient';
 
 const min = 8000000000;
 const max = 10000000000;
@@ -32,6 +30,8 @@ const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 const formattedNumber = randomNumber.toLocaleString("vi-VN");
 
 console.log(formattedNumber);
+
+
 
 const features = [
 	{
@@ -101,11 +101,11 @@ export default function HomeScreen() {
 		const selectedFeature = features[index];
 		if (selectedFeature.text === "Chuyển tiền") {
 			navigation.navigate("MoneyTransfer");
-		} else if (selectedFeature.text === 'Nạp điện thoại') {
-			navigation.navigate('RechargePhone');
 		}
 	};
 
+	const [featuresData, setFeatureData] = useState(features);
+	const [marketItemsData, setMarketItemsData] = useState(marketItems);
 	const [showAccount, setShowAccount] = useState("Xem tài khoản");
 	const [chevronIcon, setChevronIcon] = useState(faChevronDown);
 	const [isViewVisible, setIsViewVisible] = useState(false);
@@ -123,6 +123,10 @@ export default function HomeScreen() {
 			setTranY(-30);
 		}
 	};
+
+	useEffect(() => {
+		setFeatureData();
+	}, []);
 
 	return (
 		<ScrollView style={{ flex: 1 }}>
@@ -174,7 +178,7 @@ export default function HomeScreen() {
 
 					<View style={styles.heloUser}>
 						<Text style={styles.hello}>Xin chào,</Text>
-						<Text style={styles.userName}>LE ANH DUY</Text>
+						<Text style={styles.userName}>TRAN VIET BACH</Text>
 						<View
 							style={{
 								flexDirection: "row",
@@ -248,7 +252,7 @@ export default function HomeScreen() {
 										<Text style={{ fontWeight: "700", paddingRight: 5 }}>
 											Tài khoản nguồn
 										</Text>
-										<Text style={{ color: "#b6e1f6" }}>408200388888</Text>
+										<Text style={{ color: "#b6e1f6" }}>0346331968</Text>
 									</View>
 									<View style={{ flexDirection: "row", marginRight: 2 }}>
 										<Text
@@ -339,7 +343,11 @@ export default function HomeScreen() {
 							style={styles.mainFeature}
 							key={index}
 							onPress={() => handlePress(index)}>
-							<FontAwesomeIcon icon={feature.icon} size={35} color="#0d22cc" />
+							<FontAwesomeIcon
+								icon={feature.icon}
+								size={35}
+								color="#0d22cc"
+							/>
 							<Text style={{ fontSize: 16, marginTop: 10 }}>
 								{feature.text}
 							</Text>
@@ -357,7 +365,11 @@ export default function HomeScreen() {
 						{marketItems.map((marketItem, index) => (
 							<TouchableOpacity
 								key={index}
-								style={{ alignItems: "center", paddingVertical: 15, width: '25%' }}>
+								style={{
+									alignItems: "center",
+									paddingVertical: 15,
+									width: "25%",
+								}}>
 								<Image
 									source={marketItem.image}
 									style={{ width: 40, height: 40, borderRadius: 5 }}
