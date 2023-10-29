@@ -5,6 +5,7 @@ import Tabs from '../Navigation/tabs/tabs'
 import MoneyTranferScreen from "../Screens/MoneyTranferScreen";
 import SplitTradeScreen from "../Screens/SplitTradeScreen";
 import MoneyTransferToAccScreen from '../Screens/MoneyTransferToAccScreen';
+import RechargePhoneScreen from '../Screens/RechargePhoneScreen';
 
 const Stack = createStackNavigator();
 
@@ -49,6 +50,13 @@ function AppNavigator() {
             <Stack.Screen 
                 name="MoneyTransferToAcc" 
                 component={MoneyTransferToAccScreen} 
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="RechargePhone" 
+                component={RechargePhoneScreen} 
                 options={{
                     headerShown: false,
                 }}

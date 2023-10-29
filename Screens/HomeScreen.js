@@ -102,6 +102,9 @@ export default function HomeScreen() {
 		if (selectedFeature.text === "Chuyển tiền") {
 			navigation.navigate("MoneyTransfer");
 		}
+		if (selectedFeature.text === "Nạp điện thoại") {
+			navigation.navigate("RechargePhone");
+		}
 	};
 
 	const [featuresData, setFeatureData] = useState(features);
