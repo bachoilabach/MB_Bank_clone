@@ -76,6 +76,7 @@ const Input = ({ input , type}) => {
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     keyboardType={type}
+                    returnKeyType='done'
                 />
             </TouchableWithoutFeedback>
         </View>

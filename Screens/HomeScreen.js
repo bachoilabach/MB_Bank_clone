@@ -22,16 +22,6 @@ import {
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const min = 8000000000;
-const max = 10000000000;
-
-const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-
-const formattedNumber = randomNumber.toLocaleString("vi-VN");
-
-console.log(formattedNumber);
-
-
 
 const features = [
 	{
@@ -209,6 +199,8 @@ export default function HomeScreen() {
 						<Text style={{ color: "#fff", fontSize: 17, marginBottom: 30 }}>
 							{showAccount}
 						</Text>
+
+						{/* Chi tiết tài khoản */}
 						<View
 							style={[
 								{
@@ -261,7 +253,7 @@ export default function HomeScreen() {
 												fontWeight: "bold",
 												fontSize: 20,
 											}}>
-											{formattedNumber}{" "}
+											1,000,000,000
 											<Text
 												style={{
 													color: "#c5c7ce",
