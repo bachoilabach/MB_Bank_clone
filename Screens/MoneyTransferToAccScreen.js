@@ -14,14 +14,17 @@ import {
 	faChevronDown,
 	faAddressCard,
 	faChevronRight,
+	faL,
 } from "@fortawesome/free-solid-svg-icons";
 import { Switch } from "react-native";
 import ButtonInMoneyTransferScreen from "../components/GUI/Button/ButtonInMoneyTransferScreen";
-import Button from "../components/GUI/Button/Button";
+import Submit from "../components/GUI/Button/Button";
 import InputTransferMoney from "../components/GUI/Input/InputTransferMoney";
 import { bankList } from "../data/BankList/BankListData";
 import BankListModal from "../components/GUI/BankListModal/BankListModal";
-// import listBtn from '../data/MoneyTransferToAccScreen/listBtn
+import { useMoney } from "../components/MoneyContext/MoneyContext";
+import { Button } from "react-native";
+
 const listBtn = [
 	{
 		text: "TK ngân hàng",
@@ -61,53 +64,74 @@ const inputAccNum = [
 	},
 ];
 
+const phoneNum = [
+	{
+		nameOfTextInput: "Số điện thoại",
+		placeHolder: "Số điện thoại",
+		textIcon: "Danh sách",
+		icon: faAddressCard,
+		keyboardType: "numeric",
+		returnKeyType: "done",
+	},
+	{
+		nameOfTextInput: "Số tiền",
+		placeHolder: "Nhập số tiền",
+		keyboardType: "number-pad",
+		returnKeyType: "done",
+	},
+	{
+		nameOfTextInput: "Nội dung chuyển khoản",
+		textDefault: "TRAN VIET BACH chuyen khoan",
+		keyboardType: "default",
+	},
+];
+
+const cardNum = [{}];
 const BankLogo = [
 	{
 		id: 1,
-		logo: require('../assets/BankLogo/Logo_MB_new.png')
+		logo: require("../assets/BankLogo/Logo_MB_new.png"),
 	},
 	{
 		id: 2,
-		logo: require('../assets/BankLogo/ViettePay.jpg')
+		logo: require("../assets/BankLogo/ViettePay.jpg"),
 	},
 	{
 		id: 3,
-		logo: require('../assets/BankLogo/Logo-Agribank-V.webp')
+		logo: require("../assets/BankLogo/Logo-Agribank-V.webp"),
 	},
 	{
 		id: 4,
-		logo: require('../assets/BankLogo/VietinBank.png')
+		logo: require("../assets/BankLogo/VietinBank.png"),
 	},
 	{
 		id: 5,
-		logo: require('../assets/BankLogo/Bidv.jpg')
+		logo: require("../assets/BankLogo/Bidv.jpg"),
 	},
 	{
 		id: 6,
-		logo: require('../assets/BankLogo/Icon-Vietcombank.png')
+		logo: require("../assets/BankLogo/Icon-Vietcombank.png"),
 	},
 	{
 		id: 7,
-		logo: require('../assets/BankLogo/TechLogo.jpg')
+		logo: require("../assets/BankLogo/TechLogo.jpg"),
 	},
 	{
 		id: 8,
-		logo: require('../assets/BankLogo/MSBLogo.png')
+		logo: require("../assets/BankLogo/MSBLogo.png"),
 	},
 	{
 		id: 9,
-		logo: require('../assets/BankLogo/TPBank.webp')
+		logo: require("../assets/BankLogo/TPBank.webp"),
 	},
 	{
 		id: 10,
-		logo: require('../assets/BankLogo/Logo_SHB.jpeg')
+		logo: require("../assets/BankLogo/Logo_SHB.jpeg"),
 	},
-
-
 ];
 
 const MoneyTransferToAccScreen = ({ navigation }) => {
-	const buttonText = "Tiếp tục";
+	const { defaultMoney } = useMoney();
 	const [isEnabled, setIsEnabled] = useState(false);
 	const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
@@ -117,7 +141,6 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 		"Số thẻ": false,
 	});
 
-
 	const handleButtonPress = (buttonName) => {
 		setSelectedButton((prevSelectedButton) => ({
 			...Object.fromEntries(
@@ -125,8 +148,20 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 			),
 			[buttonName]: true,
 		}));
+		setCurrentTab(buttonName);
 	};
 
+	const [currentTab, setCurrentTab] = useState("TK ngân hàng");
+	let currentList = [];
+	if (currentTab === "TK ngân hàng") {
+		currentList = inputAccNum;
+	} else if (currentTab === "SĐT (MB)") {
+		currentList = phoneNum;
+	} else if (currentTab === "Số thẻ") {
+		currentList = cardNum;
+	}
+
+	// * Danh sách ngân hàng
 	const [showBankList, setShowBankList] = useState(false);
 	const [selectedBank, setSelectedBank] = useState(null);
 
@@ -134,22 +169,37 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 		setShowBankList(!showBankList);
 	};
 
+	// * Chọn ngân hàng
 	const selectBank = (bank) => {
 		setSelectedBank(bank);
 		toggleBankList();
 	};
 
+	// * Dấu sao
 	const redAsterisk =
 		selectedBank !== null ? { display: "none" } : { color: "red" };
+
+	const [click, setClick] = useState(true);
+
+	useEffect(() => {
+		if (click) {
+			navigation.navigate('ConfirmScreen');
+		}
+		navigation.pop();
+	}, [click]);
 
 	return (
 		<View style={{ flex: 1 }}>
 			<Header navigation={navigation} headerText={"Chuyển tiền"} />
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
-				keyboardVerticalOffset={Platform.OS === "ios" ? 5 : 0}>
+				style={{ backgroundColor: "#fcfbfb", flex: 1 }}>
 				<ScrollView
-					style={{ padding: 15, backgroundColor: "#fcfbfb" }}
+					style={{
+						paddingHorizontal: 15,
+						backgroundColor: "#fcfbfb",
+						paddingVertical: 15,
+					}}
 					keyboardShouldPersistTaps="always">
 					<View>
 						<Text style={{ fontSize: 17 }}>Từ tài khoản nguồn</Text>
@@ -164,12 +214,13 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 									resizeMode="contain"
 								/>
 							</View>
+							{/* Tài khoản */}
 							<View>
 								<Text style={{ color: "#9d9eae", marginBottom: 10 }}>
 									0346331968 - TRAN VIET BACH
 								</Text>
 								<Text style={{ fontWeight: "600", fontSize: 18 }}>
-									1,000,000,000
+									{defaultMoney}
 									<Text style={{ color: "#9d9eae", fontWeight: "normal" }}>
 										{" "}
 										VND
@@ -236,31 +287,33 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 					</View>
 
 					{/* Chọn ngân hàng */}
-					<TouchableOpacity style={styles.container} onPress={toggleBankList}>
-						<View style={styles.nameInput}>
-							<Text>Chọn ngân hàng</Text>
-							<Text style={redAsterisk}>*</Text>
-						</View>
-						<View
-							style={{
-								flexDirection: "row",
-								justifyContent: "space-between",
-								alignItems: "center",
-							}}>
-							<Text style={styles.inputText}>
-								{selectedBank ? selectedBank.name : "Chọn ngân hàng"}
-							</Text>
-							<View style={{ flexDirection: "row" }}>
-								<FontAwesomeIcon
-									icon={faChevronDown}
-									style={{ color: "#0c2bcc" }}
-								/>
+					{currentTab === "TK ngân hàng" && (
+						<TouchableOpacity style={styles.container} onPress={toggleBankList}>
+							<View style={styles.nameInput}>
+								<Text>Chọn ngân hàng</Text>
+								<Text style={redAsterisk}>*</Text>
 							</View>
-						</View>
-					</TouchableOpacity>
-					
+							<View
+								style={{
+									flexDirection: "row",
+									justifyContent: "space-between",
+									alignItems: "center",
+								}}>
+								<Text style={styles.inputText}>
+									{selectedBank ? selectedBank.name : "Chọn ngân hàng"}
+								</Text>
+								<View style={{ flexDirection: "row" }}>
+									<FontAwesomeIcon
+										icon={faChevronDown}
+										style={{ color: "#0c2bcc" }}
+									/>
+								</View>
+							</View>
+						</TouchableOpacity>
+					)}
+
 					{/* Input */}
-					{inputAccNum.map((item, index) => (
+					{currentList.map((item, index) => (
 						<InputTransferMoney
 							key={index}
 							nameOfTextInput={item.nameOfTextInput}
@@ -272,10 +325,10 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 						/>
 					))}
 
-					<Button buttonText={buttonText} />
+					<Submit buttonText={'Tiếp tục'} onPress={()=>setClick(true)}/>
 				</ScrollView>
 			</KeyboardAvoidingView>
-			
+
 			{/* Danh sách ngân hàng */}
 			<BankListModal
 				visible={showBankList}
@@ -323,7 +376,7 @@ const styles = StyleSheet.create({
 		color: "#0c2bcc",
 		fontSize: 16,
 	},
-	
+
 	nameInput: {
 		position: "absolute",
 		left: 15,
@@ -347,5 +400,19 @@ const styles = StyleSheet.create({
 		padding: 20,
 		borderRadius: 10,
 		marginVertical: 10,
+	},
+	containerBtn: {
+		backgroundColor: "#0e27ce",
+		borderRadius: 5,
+	},
+
+	button: {
+		justifyContent: "center",
+		alignItems: "center",
+	},
+
+	textButton: {
+		fontSize: 15,
+		color: "#fff",
 	},
 });

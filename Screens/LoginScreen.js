@@ -40,15 +40,20 @@ const Login = () => {
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
+    
+    const navigation = useNavigation();
 
     const handleForgotPassword = () => {
         navigation.navigate('ForgotPassword');
     };
 
-    const navigation = useNavigation();
+    const handleChangeAcc = () => {
+        navigation.navigate('ChangeAccount')
+    }
 
     const pressButton = ()=>{
         navigation.navigate('Tabs');
+        // navigation.pop();
     }
 
     return(
@@ -61,6 +66,8 @@ const Login = () => {
                     height: windowHeight + statusBarHeight,
                 }}
             >
+            
+            {/* Header */}
             <View style={{display:'flex',flexDirection:'row',marginBottom: '5%'}}>
                 <View style={{flex: 1}}></View>
                 <Image 
@@ -76,6 +83,8 @@ const Login = () => {
                     <Text style={{fontWeight:'bold',fontSize: 18,color: '#fff'}}>ENG</Text>
                 </View>
             </View>
+
+            {/* User */}
             <View>
                 <Image 
                     style={styles.userAva}
@@ -83,12 +92,15 @@ const Login = () => {
                     source={require('../assets/user.png')}
                 />
             </View>
+
+            {/* Xin chào */}
             <View style={styles.heloUser}>
                 <Text style={styles.hello}>Xin chào,</Text>
                 <Text style= {styles.userName}>TRAN VIET BACH</Text>
             </View>
 
             <View style={styles.inputContainer}>
+                {/* Input */}
                 <View style={styles.input}>
                     <TextInput
                         style={styles.password}
@@ -123,7 +135,7 @@ const Login = () => {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleChangeAcc}>
                         <View style={styles.forgotPasswordContainer}>
                             <Text style={{fontWeight: 'bold',fontSize: 12,color: '#fff'}}>ĐĂNG NHẬP BẰNG TÀI KHOẢN KHÁC</Text>
                         </View>

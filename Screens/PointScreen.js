@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import Header from '../components/GUI/Header/Header'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCartShopping, faChevronRight, faPercent } from '@fortawesome/free-solid-svg-icons';
 import Item from '../components/GUI/Item/Item';
 

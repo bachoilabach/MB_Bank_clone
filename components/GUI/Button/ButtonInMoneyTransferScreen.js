@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 
-const ButtonInMoneyTransferScreen = ({ btn, selectedButton, handleButtonPress }) => {
+const ButtonInMoneyTransferScreen = ({ btn, selectedButton, handleButtonPress,text }) => {
     
 	return (
 		<TouchableOpacity

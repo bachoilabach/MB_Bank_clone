@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {View,Text,TouchableOpacity,StyleSheet,Button} from 'react-native';
 
-function Submit ({buttonText}){
+function Submit ({buttonText,onPress}){
     const [name, setName] = useState(buttonText)
     return(
         <View style={styles.container}>
-            <TouchableOpacity style={{paddingTop: 6,paddingBottom:6}}>
+            <TouchableOpacity style={{paddingVertical: 6}} onPress={onPress}>
                 <Button title={name} fontSize={'18'} color={'#fff'} />
             </TouchableOpacity>
         </View>

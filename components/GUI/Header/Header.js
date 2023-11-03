@@ -10,7 +10,9 @@ function Header({ headerText, navigation }) {
 		headerText === "Yêu cầu lấy lại mật khẩu" ||
 		headerText === "Chuyển tiền" ||
 		headerText === "Nạp tiền điện thoại" ||
-        headerText === "Giao dịch tách lệnh";
+        headerText === "Giao dịch tách lệnh" ||
+		headerText === "Xác nhận thông tin"||
+		headerText === 'Lấy mã OTP';
 	const goBack = () => {
 		navigation.pop();
 	};

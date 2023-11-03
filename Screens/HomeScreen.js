@@ -21,6 +21,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useMoney } from "../components/MoneyContext/MoneyContext";
 
 
 const features = [
@@ -97,6 +98,9 @@ export default function HomeScreen() {
 	const [featuresData, setFeatureData] = useState(features);
 	const [marketItemsData, setMarketItemsData] = useState(marketItems);
 	const [showAccount, setShowAccount] = useState("Xem tài khoản");
+	
+	// * Xem tài khoản
+	const { defaultMoney } = useMoney();
 	const [chevronIcon, setChevronIcon] = useState(faChevronDown);
 	const [isViewVisible, setIsViewVisible] = useState(false);
 	const [tranY, setTranY] = useState(-30);
@@ -253,7 +257,7 @@ export default function HomeScreen() {
 												fontWeight: "bold",
 												fontSize: 20,
 											}}>
-											1,000,000,000
+											{ defaultMoney }
 											<Text
 												style={{
 													color: "#c5c7ce",
