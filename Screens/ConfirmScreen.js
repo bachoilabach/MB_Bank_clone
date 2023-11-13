@@ -6,35 +6,32 @@ import { TouchableOpacity } from "react-native";
 import { Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const detail = [
-	{
-		tit: "Phí giao dịch",
-		des: "Miễn phí",
-	},
-	{
-		tit: "Số tiền bằng chữ",
-		des: "Mười nghìn Việt Nam Đồng",
-	},
-	{
-		tit: "Hình thức chuyển tiền",
-		des: "Chuyển nhanh Napas 247",
-	},
-	{
-		tit: "Nội dung",
-		des: "TRAN VIET BACH chuyen khoan",
-	},
-];
 
-const ConfirmScreen = () => {
+const ConfirmScreen = ({ route }) => {
 	const navigation = useNavigation();
-	const confirm = () => {
-		navigation.navigate("TakeOTP");
-		console.log("1");
-	};
+	const { selectedBank, stk, nameAcc, money, content,BankLogo,bankID} = route.params;
+	const detail = [
+		{
+			tit: "Phí giao dịch",
+			des: "Miễn phí",
+		},
+		{
+			tit: "Số tiền bằng chữ",
+			des: "Mười nghìn Việt Nam Đồng",
+		},
+		{
+			tit: "Hình thức chuyển tiền",
+			des: "Chuyển nhanh Napas 247",
+		},
+		{
+			tit: "Nội dung",
+			des: content,
+		},
+	];
 	return (
-		<View style={{ flex: 1 }}>
+		<View style={{ flex: 1, backgroundColor: "#fff"}}>
 			<Header navigation={navigation} headerText={"Xác nhận thông tin"} />
-			<View style={{ backgroundColor: "#fff" }}>
+			<View>
 				{/* Ảnh */}
 				<View>
 					<Image
@@ -47,7 +44,7 @@ const ConfirmScreen = () => {
 							<Text style={[styles.txtAmount, styles.white]}>
 								Số tiền chuyển
 							</Text>
-							<Text style={[styles.txtTotal, styles.white]}>10,000 VND</Text>
+							<Text style={[styles.txtTotal, styles.white]}>{money} VND</Text>
 						</View>
 					</View>
 
@@ -60,7 +57,7 @@ const ConfirmScreen = () => {
 							<View style={[styles.row, styles.center]}>
 								<View>
 									<Image
-										source={require("../assets/BankLogo/Logo_MB_new.png")}
+										source={require("../assets/Logo_MB_new.png")}
 										resizeMode="contain"
 										style={{ width: 30, height: 30, marginRight: 10 }}
 									/>
@@ -80,15 +77,15 @@ const ConfirmScreen = () => {
 							<View style={[styles.row, styles.center]}>
 								<View>
 									<Image
-										source={require("../assets/BankLogo/Bidv.jpg")}
+										source={BankLogo.find(item => item.id === bankID).logo}
 										resizeMode="contain"
 										style={{ width: 30, height: 30, marginRight: 10 }}
 									/>
 								</View>
 								<View>
-									<Text style={styles.txtNameUser}>TRAN VIET BACH</Text>
-									<Text>21510004003273</Text>
-									<Text>Đầu tư và phát triển Việt Nam (BIDV)</Text>
+									<Text style={styles.txtNameUser}>{nameAcc}</Text>
+									<Text>{stk}</Text>
+									<Text>{selectedBank.name}</Text>
 								</View>
 							</View>
 						</View>
@@ -111,9 +108,7 @@ const ConfirmScreen = () => {
 			</View>
 
 			<View style={styles.container}>
-				<TouchableOpacity style={{ paddingVertical: 6 }} onPress={confirm}>
-					<Button title={"Xác nhận"} fontSize={"18"} color={"#fff"} />
-				</TouchableOpacity>
+			<Submit buttonText={'Xác nhận'}  onPress={()=>navigation.replace("TakeOTP")}/>
 			</View>
 		</View>
 	);

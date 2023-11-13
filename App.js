@@ -1,11 +1,14 @@
 import React from "react";
 import { View, StyleSheet, SafeAreaView, StatusBar } from "react-native";
 import AppNavigator from "./Navigation/index";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { MoneyProvider } from "./components/MoneyContext/MoneyContext";
-import HomeScreen from "./Screens/BaiThucHanh/HomeScreen";
+// import HomeScreen from "./Screens/BaiThucHanh/HomeScreen";
 import ConfirmScreen from "./Screens/ConfirmScreen";
 import TakeOTP from "./Screens/TakeOTP";
+import MoneyTransferToAccScreen from "./Screens/MoneyTransferToAccScreen";
+import MoneyTranferScreen from "./Screens/MoneyTranferScreen";
+import HomeScreen from "./Screens/HomeScreen";
 
 
 export default function App() {

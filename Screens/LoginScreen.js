@@ -52,7 +52,7 @@ const Login = () => {
     }
 
     const pressButton = ()=>{
-        navigation.navigate('Tabs');
+        navigation.replace('Tabs');
         // navigation.pop();
     }
 

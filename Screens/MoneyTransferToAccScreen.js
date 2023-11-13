@@ -6,7 +6,7 @@ import {
 	ScrollView,
 	KeyboardAvoidingView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import Header from "../components/GUI/Header/Header";
 import { Image } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -164,6 +164,7 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 	// * Danh sách ngân hàng
 	const [showBankList, setShowBankList] = useState(false);
 	const [selectedBank, setSelectedBank] = useState(null);
+	const [bankID,setBankID] = useState(null);
 
 	const toggleBankList = () => {
 		setShowBankList(!showBankList);
@@ -172,21 +173,57 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 	// * Chọn ngân hàng
 	const selectBank = (bank) => {
 		setSelectedBank(bank);
+		setBankID(bank.id)
 		toggleBankList();
+		console.log(bank.id);
 	};
 
 	// * Dấu sao
 	const redAsterisk =
 		selectedBank !== null ? { display: "none" } : { color: "red" };
 
-	const [click, setClick] = useState(true);
+	// * Check điều kiện
+	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-	useEffect(() => {
-		if (click) {
-			navigation.navigate('ConfirmScreen');
+	// * Thêm state cho từng ô nhập
+	const [stk, setSTK] = useState("");
+	const [nameAcc, setNameAcc] = useState("");
+	const [money, setMoney] = useState("");
+	const [content, setContent] = useState("TRAN VIET BACH chuyen khoan");
+
+	// * Hàm để lấy giá trị từ state theo tên trường nhập
+	const getValueByInputName = (inputName) => {
+		switch (inputName) {
+			case "Số tài khoản":
+				return stk;
+			case "Tên tài khoản":
+				return nameAcc;
+			case "Số tiền":
+				return money;
+			case "Nội dung chuyển khoản":
+				return content;
+			default:
+				return "";
 		}
-		navigation.pop();
-	}, [click]);
+	};
+
+	const checkConditions = () => {
+		const conditions = [
+			selectedBank !== null, // Chọn ngân hàng
+			stk.trim() !== "", // Số tài khoản
+			nameAcc.trim() !== "", // Tên tài khoản
+			money.trim() !== "", // Số tiền
+			content.trim() !== "", // Nội dung chuyển khoản
+		];
+
+		// * Nếu tất cả điều kiện đều đáp ứng, set isButtonDisabled là false
+		setIsButtonDisabled(!conditions.every((condition) => condition));
+	};
+
+	// * Sử dụng useEffect để gọi hàm kiểm tra điều kiện khi có bất kỳ sự thay đổi nào trong các ô nhập
+	useEffect(() => {
+		checkConditions();
+	}, [selectedBank, stk, nameAcc, money, content]);
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -320,12 +357,47 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 							placeHolder={item.placeHolder}
 							icon={item.icon}
 							keyboardType={item.keyboardType}
+							value={getValueByInputName(item.nameOfTextInput)}
 							textDefault={item.textDefault}
 							textIcon={item.textIcon}
+							onChangeText={(text) => {
+								switch (item.nameOfTextInput) {
+									case "Số tài khoản":
+										setSTK(text);
+										break;
+									case "Tên tài khoản":
+										setNameAcc(text);
+										break;
+									case "Số tiền":
+										setMoney(text);
+										break;
+									case "Nội dung chuyển khoản":
+										setContent(text);
+										break;
+									// Thêm các trường khác nếu cần
+									default:
+										break;
+								}
+								checkConditions();
+							}}
 						/>
 					))}
 
-					<Submit buttonText={'Tiếp tục'} onPress={()=>setClick(true)}/>
+					<Submit
+						buttonText={"Tiếp tục"}
+						onPress={() => {
+							navigation.replace("ConfirmScreen", {
+								selectedBank,
+								stk,
+								nameAcc,
+								money,
+								content,
+								BankLogo,
+								bankID,
+							});
+						}}
+						isDisabled={isButtonDisabled}
+					/>
 				</ScrollView>
 			</KeyboardAvoidingView>
 

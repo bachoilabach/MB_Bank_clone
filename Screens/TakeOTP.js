@@ -2,23 +2,37 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Header from "../components/GUI/Header/Header";
 import Submit from "../components/GUI/Button/Button";
+import { Alert } from "react-native";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 const TakeOTP = ({ navigation }) => {
-	const [countdown, setCountdown] = useState(100);
+	const [countdown, setCountdown] = useState(10);
+	const [isVisible, setIsVisible] = useState(false);
 	const [randomNumbers, setRandomNumbers] = useState(
 		Array.from({ length: 8 }, () => Math.floor(Math.random() * 10))
 	);
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setCountdown((prevCountdown) => prevCountdown - 1);
-			// setRandomNumbers((prevNumbers) =>
-			// 	prevNumbers.map(() => Math.floor(Math.random() * 10))
-			// );
-		}, 1000);
 
-		// Clear the interval when the component unmounts
+			// Clear the interval when the component unmounts
+			if (countdown === 0) {
+				clearInterval(interval);
+				Alert.alert("Thông báo", "Hết thời gian", [
+					{
+						text: "Quay trở về trang trước",
+						onPress: () => {
+							navigation.goBack();
+						},
+					},
+				]);
+			}
+		}, 1000);
 		return () => clearInterval(interval);
-	}, []);
+	}, [countdown, navigation]);
+	handleReceiveOTP = () => {
+		setIsVisible(true);
+	};
 	return (
 		<View>
 			<Header headerText={"Lấy mã OTP"} navigation={navigation} />
@@ -29,6 +43,8 @@ const TakeOTP = ({ navigation }) => {
 					</Text>
 					<Text style={styles.fnsz15}>trong vòng {countdown} giây</Text>
 				</View>
+
+				{/* Mã OTP */}
 				<View style={{ backgroundColor: "#fff", marginBottom: 15 }}>
 					<View
 						style={[
@@ -43,8 +59,10 @@ const TakeOTP = ({ navigation }) => {
 					</View>
 				</View>
 
-				<Submit buttonText={"Nhận OTP"} />
+				{/* Nút nhận mã OTP */}
+				<Submit buttonText={"Nhận OTP"} onPress={handleReceiveOTP} />
 
+				{/* Mã OTP */}
 				<View
 					style={{
 						backgroundColor: "#fff",
@@ -54,10 +72,16 @@ const TakeOTP = ({ navigation }) => {
 					<View
 						style={[
 							styles.row,
-							{ padding: 26, justifyContent: "space-between" },
+							{justifyContent: "space-between" },
+							isVisible ? {padding: 25} : {padding: 40}
 						]}>
 						{randomNumbers.map((number, index) => (
-							<Text key={index} style={styles.fnsz28}>
+							<Text
+								key={index}
+								style={[
+									styles.fnsz28,
+									isVisible ? { display: "flex" } : { display: "none" },
+								]}>
 								{number}
 							</Text>
 						))}

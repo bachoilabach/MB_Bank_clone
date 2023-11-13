@@ -20,8 +20,9 @@ import {
 	faCreditCard,
 } from "@fortawesome/free-solid-svg-icons";
 import { TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useNavigationState } from "@react-navigation/native";
 import { useMoney } from "../components/MoneyContext/MoneyContext";
+import DetailAccount from "../components/GUI/BankListModal/DetailAccount";
 
 
 const features = [
@@ -118,6 +119,11 @@ export default function HomeScreen() {
 		}
 	};
 
+	// * Quản lý tài khoản
+	const [accManagement, setShowAcountManagement] = useState(false);
+	const toggleManagementAcc = ()=>{
+		setShowAcountManagement(!accManagement);
+	}
 	useEffect(() => {
 		setFeatureData();
 	}, []);
@@ -133,7 +139,7 @@ export default function HomeScreen() {
 							alignItems: "center",
 							paddingHorizontal: 15,
 						}}>
-						<TouchableOpacity>
+						<TouchableOpacity onPress={toggleManagementAcc}>
 							<FontAwesomeIcon
 								icon={faUser}
 								color="#fff"
@@ -169,7 +175,8 @@ export default function HomeScreen() {
 							/>
 						</TouchableOpacity>
 					</View>
-
+					
+					{/* User */}
 					<View style={styles.heloUser}>
 						<Text style={styles.hello}>Xin chào,</Text>
 						<Text style={styles.userName}>TRAN VIET BACH</Text>
@@ -401,6 +408,7 @@ export default function HomeScreen() {
 					</View>
 				</View>
 			</View>
+			{/* <DetailAccount onPress={toggleManagementAcc}/> */}
 		</ScrollView>
 	);
 }

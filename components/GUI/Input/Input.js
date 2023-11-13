@@ -3,18 +3,19 @@ import React, { useRef, useState } from 'react'
 import { TextInput, Animated } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native';
 
-const Input = ({ input , type}) => {
+const Input = ({ input , type, value,onChangeText}) => {
     const transY = useRef(new Animated.Value(0));
     const textColor = useRef(new Animated.Value(0));
     const [borderColor,setBorderColor] = useState('#91939b');
     const [fontSize, setFontSize] = useState(17);
-    const [text,setText] = useState('');
+    // const [text,setText] = useState(val);
 
     const handleKeyboradDissmiss  = ()=>{
         Keyboard.dismiss();
     }
-    const handleChangeText = (text)=>{
-        setText(text)
+    const handleChangeText = (value)=>{
+        console.log(value);
+        // setText(value);
     }
 
     const handleFocus = () => {
@@ -37,7 +38,7 @@ const Input = ({ input , type}) => {
     };
 
     const handleBlur = () => {
-        if(text) return;
+        if(value) return;
         Animated.parallel([
             Animated.timing(transY.current, {
                 toValue: 0,
@@ -71,8 +72,8 @@ const Input = ({ input , type}) => {
             <TouchableWithoutFeedback onPress={handleKeyboradDissmiss}>
                 <TextInput
                     style={styles.textInput}
-                    value={text}
-                    onChangeText={handleChangeText}
+                    value={value}
+                    onChangeText={onChangeText}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     keyboardType={type}

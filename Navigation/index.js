@@ -22,7 +22,7 @@ function AppNavigator() {
 				}}
 			/>
 			<Stack.Screen
-				name="ForgotPassword"
+				name="ForgotPassword" 
 				component={ForgotPasswordScreen}
 				options={{
 					headerShown: false,

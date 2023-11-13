@@ -10,9 +10,11 @@ const InputTransferMoney = ({
 	keyboardType,
 	textDefault,
 	textIcon,
+	onChangeText,
+	value
 }) => {
 	const [isFocused, setIsFocused] = useState(false);
-	const [text, setText] = useState("");
+	// const [text, setText] = useState("");
 
 	const handleFocus = () => {
 		setIsFocused(true);
@@ -30,7 +32,7 @@ const InputTransferMoney = ({
 		? { ...styles.nameText, color: "blue" }
 		: styles.nameText;
 
-	const redAsterisk = text === "" ? { color: "red" } : { display: "none" };
+	const redAsterisk = value.trim() === "" ? { color: "red" } : { display: "none" };
 
 	return (
 		<TouchableOpacity style={containerStyle}>
@@ -50,8 +52,8 @@ const InputTransferMoney = ({
 					placeholderTextColor={"#9d9eae"}
 					onFocus={handleFocus}
 					onBlur={handleBlur}
-					value={text || textDefault}
-					onChangeText={(value) => setText(value)}
+					value={value || textDefault}
+					onChangeText={onChangeText}
 					keyboardType={keyboardType}
 					returnKeyType="done" 
 				/>
@@ -92,5 +94,6 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		padding: 5,
 		paddingVertical: 10,
+		flex: 1
 	},
 });
