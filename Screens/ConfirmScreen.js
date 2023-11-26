@@ -1,15 +1,21 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/GUI/Header/Header";
 import Submit from "../components/GUI/Button/Button";
 import { TouchableOpacity } from "react-native";
 import { Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import { ImageBackground } from "react-native";
+import VNnum2words from 'vn-num2words';
 
 const ConfirmScreen = ({ route }) => {
 	const navigation = useNavigation();
-	const { selectedBank, stk, nameAcc, money, content,BankLogo,bankID} = route.params;
+	const { selectedBank, stk, nameAcc, money, content, BankLogo, bankID } =
+		route.params;
+	const moneyNum = Number(money);
+	const moneyString = moneyNum.toLocaleString('en-US');
+	console.log(moneyString);
+	const moneyToWords = VNnum2words(moneyNum)
 	const detail = [
 		{
 			tit: "Phí giao dịch",
@@ -17,7 +23,7 @@ const ConfirmScreen = ({ route }) => {
 		},
 		{
 			tit: "Số tiền bằng chữ",
-			des: "Mười nghìn Việt Nam Đồng",
+			des: `${moneyToWords} Việt Nam đồng`,
 		},
 		{
 			tit: "Hình thức chuyển tiền",
@@ -28,24 +34,27 @@ const ConfirmScreen = ({ route }) => {
 			des: content,
 		},
 	];
+	const { name, moneyOwn, sdt } = route.params || {};
+	const [userData, setUserData] = useState({});
+	useEffect(() => {
+		if (name && moneyOwn && sdt) {
+			setUserData({
+				name: name,
+				moneyOwn: moneyOwn,
+				sdt: sdt,
+			});
+		}
+	}, [name, moneyOwn, sdt]);
 	return (
-		<View style={{ flex: 1, backgroundColor: "#fff"}}>
+		<View style={{ flex: 1 }}>
 			<Header navigation={navigation} headerText={"Xác nhận thông tin"} />
 			<View>
 				{/* Ảnh */}
 				<View>
-					<Image
-						source={require("../assets/gradient.jpg")}
-						style={styles.img}
-					/>
 					{/* số tiền chuyển */}
-					<View style={styles.pos}>
-						<View style={styles.center}>
-							<Text style={[styles.txtAmount, styles.white]}>
-								Số tiền chuyển
-							</Text>
-							<Text style={[styles.txtTotal, styles.white]}>{money} VND</Text>
-						</View>
+					<View style={[styles.center, { marginTop: 30 }]}>
+						<Text style={[styles.txtAmount, styles.black]}>Số tiền chuyển</Text>
+						<Text style={[styles.txtTotal, styles.black]}>{moneyString} VND</Text>
 					</View>
 
 					<View style={styles.fromAccountContainer}>
@@ -63,8 +72,8 @@ const ConfirmScreen = ({ route }) => {
 									/>
 								</View>
 								<View>
-									<Text style={styles.txtNameUser}>TRAN VIET BACH</Text>
-									<Text>0346331968</Text>
+									<Text style={styles.txtNameUser}>{userData.name}</Text>
+									<Text style={{ fontSize: 17 }}>{userData.sdt}</Text>
 								</View>
 							</View>
 						</View>
@@ -77,15 +86,17 @@ const ConfirmScreen = ({ route }) => {
 							<View style={[styles.row, styles.center]}>
 								<View>
 									<Image
-										source={BankLogo.find(item => item.id === bankID).logo}
+										source={BankLogo.find((item) => item.id === bankID).logo}
 										resizeMode="contain"
 										style={{ width: 30, height: 30, marginRight: 10 }}
 									/>
 								</View>
 								<View>
 									<Text style={styles.txtNameUser}>{nameAcc}</Text>
-									<Text>{stk}</Text>
-									<Text>{selectedBank.name}</Text>
+									<Text style={{ fontSize: 17 }}>{stk}</Text>
+									<Text style={{ fontSize: 15, width: "65%" }}>
+										{selectedBank.name}
+									</Text>
 								</View>
 							</View>
 						</View>
@@ -106,9 +117,24 @@ const ConfirmScreen = ({ route }) => {
 					</View>
 				</View>
 			</View>
-
 			<View style={styles.container}>
-			<Submit buttonText={'Xác nhận'}  onPress={()=>navigation.replace("TakeOTP")}/>
+				<Submit
+					buttonText={"Xác nhận"}
+					onPress={() =>
+						navigation.replace("TakeOTP", {
+							money: money, // Số tiền
+							nameAcc: nameAcc, // Tên tài khoản
+							stk: stk, // Số tài khoản
+							selectedBank: selectedBank, // Thông tin ngân hàng
+							content: content, // Nội dung
+							BankLogo: BankLogo, // Logo ngân hàng
+							bankID: bankID, // ID ngân hàng
+							name: name,
+							moneyOwn: moneyOwn,
+							sdt: sdt,
+						})
+					}
+				/>
 			</View>
 		</View>
 	);
@@ -133,35 +159,30 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 	},
 
-	white: {
-		color: "#fff",
-	},
-
-	pos: {
-		position: "absolute",
-		top: "30%",
-		left: "38%",
-		transform: [{ translateX: -50 }, { translateY: -50 }],
+	black: {
+		color: "black",
 	},
 
 	img: {
-		width: "100%",
-		height: "70%",
-		borderBottomLeftRadius: 80,
-		borderBottomRightRadius: 50,
-		// position: 'absolute'
+		flex: 1,
+		height: "90%",
+		// borderRadius: "100%"
+		borderBottomLeftRadius: 200,
 	},
 	txtAmount: {
 		marginBottom: 30,
+		// paddingLeft: "-10%",
+		fontSize: 18,
 	},
 	txtTotal: {
 		fontSize: 35,
 		fontWeight: "bold",
+		// paddingLeft: "10%",
 	},
 	fromAccountContainer: {
 		width: "90%",
 		backgroundColor: "#fff",
-		position: "absolute",
+		// position: "absolute",
 		bottom: 0,
 		padding: 10,
 		margin: 20,

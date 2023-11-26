@@ -12,7 +12,8 @@ function Header({ headerText, navigation }) {
 		headerText === "Nạp tiền điện thoại" ||
         headerText === "Giao dịch tách lệnh" ||
 		headerText === "Xác nhận thông tin"||
-		headerText === 'Lấy mã OTP';
+		headerText === 'Lấy mã OTP' ||
+		headerText === 'Nạp điện thoại';
 	const goBack = () => {
 		navigation.pop();
 	};
@@ -22,15 +23,15 @@ function Header({ headerText, navigation }) {
 			<SafeAreaView>
 				<View style={styles.main}>
 					{tilte && (
-						<TouchableOpacity onPress={goBack}>
-							<FontAwesomeIcon icon={faAngleLeft} size={20} color="#fff" />
+						<TouchableOpacity onPress={goBack} style={styles.icon}>
+							<FontAwesomeIcon icon={faAngleLeft} size={23} color="#fff" />
 						</TouchableOpacity>
 					)}
 
 					<Text style={[styles.text, !tilte && styles.centerText]}>{name}</Text>
 
 					{tilte && (
-						<TouchableOpacity onPress={goBack}>
+						<TouchableOpacity onPress={()=>{navigation.navigate("Tabs")}} style={styles.icon}>
 							<FontAwesomeIcon icon={faHouse} size={23} color="#fff" />
 						</TouchableOpacity>
 					)}
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
 		paddingBottom: "5%",
 		paddingLeft: "4%",
 		paddingRight: "4%",
+		paddingTop: '3%'
 	},
 	text: {
 		color: "#fff",
@@ -63,6 +65,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		textAlign: "center",
 	},
+	icon: {
+		paddingHorizontal: 10
+	}
 });
 
 export default Header;

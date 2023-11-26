@@ -9,7 +9,7 @@ import {
 	ImageBackground,
 	StatusBar,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
 	faQrcode,
@@ -51,7 +51,10 @@ const ChangeAccount = () => {
 		},
 	];
 
+	const [accounts, setAccounts] = useState([]);
+	const [phoneNumber, setPhoneNumber] = useState("");
 	const [password, setPassword] = useState("");
+	const [errorMessage, setErrorMessage] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 
 	const toggleShowPassword = () => {
@@ -65,13 +68,42 @@ const ChangeAccount = () => {
 	};
 
 	const handleChangeAcc = () => {
-		navigation.navigate("ChangeAccount");
+		navigation.navigate("CreateAccount");
 	};
 
-	const pressButton = () => {
-		navigation.navigate("Tabs");
-	};
+	const ipV4 = "192.168.1.11";
+	useEffect(() => {
+		fetch(`http://${ipV4}:3000/accounts/${phoneNumber}`, {
+			method: "GET",
+		})
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				return response.json();
+			})
+			.then((data) => {
+				setAccounts(data);
+				console.log(data);
+			})
+			.catch((error) => {
+				console.error("Error fetching data:", error);
+			});
+	}, [phoneNumber]);
 
+	const handleLogin = () => {
+		if (phoneNumber === accounts.data.sdt && password === accounts.data.password) {
+			navigation.navigate("Tabs", {
+				moneyOwn: accounts.data.moneyOwn,
+				name: accounts.data.name,
+				sdt: accounts.data.sdt
+			});
+			setErrorMessage("");
+			console.log(accounts.name, accounts.moneyOwn);
+		} else {
+			setErrorMessage("*Tài khoản hoặc mật khẩu sai");
+		}
+	};
 	return (
 		<View style={styles.background}>
 			<ImageBackground
@@ -82,7 +114,12 @@ const ChangeAccount = () => {
 					height: windowHeight + statusBarHeight,
 				}}>
 				<View
-					style={{ display: "flex", flexDirection: "row", marginBottom: "5%",marginBottom: '50%' }}>
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						marginBottom: "5%",
+						marginBottom: "50%",
+					}}>
 					<View style={{ flex: 1 }}></View>
 					<Image
 						source={require("../assets/9d8ed5_03ea4831549b46ecabc9cd0117623d0e~mv2.webp")}
@@ -111,10 +148,14 @@ const ChangeAccount = () => {
 					<View style={styles.input}>
 						<TextInput
 							style={styles.password}
-							value={password}
+							value={phoneNumber}
 							editable
-							placeholder="Tài khoản"
+							placeholder="Số điện thoại"
+							keyboardType="number-pad"
 							placeholderTextColor={"#fff"}
+							onChangeText={(inputText) => {
+								setPhoneNumber(inputText), console.log(inputText);
+							}}
 						/>
 					</View>
 					<View style={styles.input}>
@@ -126,7 +167,7 @@ const ChangeAccount = () => {
 							secureTextEntry={!showPassword}
 							placeholder="Mật khẩu"
 							placeholderTextColor={"#fff"}
-							onChangeText={(inputText) => setText(inputText)}
+							onChangeText={(inputText) => setPassword(inputText)}
 						/>
 						<View style={styles.showPassword}>
 							<TouchableOpacity onPress={toggleShowPassword}>
@@ -144,7 +185,10 @@ const ChangeAccount = () => {
 							</TouchableOpacity>
 						</View>
 					</View>
-					<TouchableOpacity style={styles.button} onPress={pressButton}>
+					<Text style={{ color: "red", marginLeft: "-45%" }}>
+						{errorMessage}
+					</Text>
+					<TouchableOpacity style={styles.button} onPress={handleLogin}>
 						<Text style={styles.buttonText}>Đăng nhập</Text>
 					</TouchableOpacity>
 
@@ -162,7 +206,7 @@ const ChangeAccount = () => {
 							<View style={styles.forgotPasswordContainer}>
 								<Text
 									style={{ fontWeight: "bold", fontSize: 12, color: "#fff" }}>
-									ĐĂNG NHẬP BẰNG TÀI KHOẢN KHÁC
+									Tạo tài khoản
 								</Text>
 							</View>
 						</TouchableOpacity>
@@ -212,7 +256,6 @@ const styles = StyleSheet.create({
 		height: 50,
 	},
 
-
 	inputContainer: {
 		flex: 1,
 		alignItems: "center",
@@ -227,7 +270,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 		borderColor: "#fff",
-        marginBottom: 30
+		marginBottom: 30,
 	},
 
 	showPassword: {
@@ -266,6 +309,7 @@ const styles = StyleSheet.create({
 		marginTop: "9%",
 		gap: "30%",
 		borderColor: "#fff",
+		gap: "170%",
 	},
 
 	faceId: {

@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/GUI/Header/Header";
 import { TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -25,6 +25,10 @@ const listBtn = [
 	},
 ];
 
+const recentList = [];
+
+const transactionTemplateList = [];
+
 const savedList = [
 	{
 		image: require("../assets/Logo_MB_new.png"),
@@ -33,12 +37,8 @@ const savedList = [
 		bankName: "Quân đội(MB)",
 	},
 ];
-
-const recentList = [];
-
-const transactionTemplateList = [];
-
-const MoneyTranferScreen = () => {
+const MoneyTranferScreen = ({ route }) => {
+	const { name, moneyOwn, sdt } = route.params || {};
 	const headerText = "Chuyển tiền";
 	const [selectedButton, setSelectedButton] = useState({
 		"STK đã lưu": true,
@@ -75,9 +75,28 @@ const MoneyTranferScreen = () => {
 		navigation.navigate("SplitTrade");
 	};
 
+	
+
+	const [userData, setUserData] = useState({});
+
+	useEffect(() => {
+		if (name && moneyOwn && sdt) {
+			setUserData({
+				name: name,
+				moneyOwn: moneyOwn,
+				sdt: sdt,
+			});
+		}
+	}, [name, moneyOwn, sdt]);
+
 	const handlePressNewBeneficiaries = () => {
-		navigation.navigate("MoneyTransferToAcc");
+		navigation.navigate("MoneyTransferToAcc", {
+			name: name,
+			moneyOwn: moneyOwn,
+			sdt: sdt,
+		});
 	};
+
 	return (
 		<View>
 			<Header navigation={navigation} headerText={headerText} />

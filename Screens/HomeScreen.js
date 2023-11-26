@@ -22,8 +22,6 @@ import {
 import { TouchableOpacity } from "react-native";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
 import { useMoney } from "../components/MoneyContext/MoneyContext";
-import DetailAccount from "../components/GUI/BankListModal/DetailAccount";
-
 
 const features = [
 	{
@@ -52,56 +50,94 @@ const features = [
 	},
 ];
 
-const marketItems = [
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Bất động sản",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Flash Sale",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Data 3G/4G",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Thẻ game 247",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Thẻ game 365",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Thẻ điện thoại",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Nạp điện thoại",
-	},
-	{
-		image: require("../assets/bee.jpg"),
-		name: "Xem thêm",
-	},
-];
+// const marketItems = [
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Bất động sản",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Flash Sale",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Data 3G/4G",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Thẻ game 247",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Thẻ game 365",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Thẻ điện thoại",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Nạp điện thoại",
+// 	},
+// 	{
+// 		image: require("../assets/bee.jpg"),
+// 		name: "Xem thêm",
+// 	},
+// ];
 
-export default function HomeScreen() {
+export default function HomeScreen({ route }) {
+	const { name, moneyOwn, sdt } = route.params || {};
+	const [userData, setUserData] = useState({});
+	const [marketItemsData, setMarketItemsData] = useState([]);
+	const { defaultMoney,setDefaultMoney } = useMoney();
+	const ipV4 = "192.168.1.11";
+	useEffect(() => {
+		fetch(`http://${ipV4}:3000/marketItems`, {
+			method: "GET",
+		})
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error("Network response was not ok");
+			}
+			return response.json();
+		})
+		.then((data) => {
+			setMarketItemsData(data);
+			// console.log(data)
+		})
+		.catch((error) => {
+			console.error("Error fetching data:", error);
+		});
+		if (name && moneyOwn && sdt) {
+			setUserData({
+				name: name,
+				moneyOwn: moneyOwn,
+				sdt: sdt,
+			});
+		}
+		setDefaultMoney( userData.moneyOwn)
+		console.log(userData.moneyOwn);
+	}, [userData.moneyOwn])
 	const navigation = useNavigation();
 	const handlePress = (index) => {
 		const selectedFeature = features[index];
 		if (selectedFeature.text === "Chuyển tiền") {
-			navigation.navigate("MoneyTransfer");
+			navigation.navigate("MoneyTransfer", {
+				name: name,
+				moneyOwn: moneyOwn,
+				sdt: sdt,
+			});
+		}
+		if (selectedFeature.text === "Nạp điện thoại") {
+			navigation.navigate("RechargePhone");
 		}
 	};
 
 	const [featuresData, setFeatureData] = useState(features);
-	const [marketItemsData, setMarketItemsData] = useState(marketItems);
+
 	const [showAccount, setShowAccount] = useState("Xem tài khoản");
-	
+
 	// * Xem tài khoản
-	const { defaultMoney } = useMoney();
 	const [chevronIcon, setChevronIcon] = useState(faChevronDown);
 	const [isViewVisible, setIsViewVisible] = useState(false);
 	const [tranY, setTranY] = useState(-30);
@@ -121,15 +157,12 @@ export default function HomeScreen() {
 
 	// * Quản lý tài khoản
 	const [accManagement, setShowAcountManagement] = useState(false);
-	const toggleManagementAcc = ()=>{
+	const toggleManagementAcc = () => {
 		setShowAcountManagement(!accManagement);
-	}
-	useEffect(() => {
-		setFeatureData();
-	}, []);
+	};
 
 	return (
-		<ScrollView style={{ flex: 1 }}>
+		<ScrollView>
 			<View>
 				{/* Header */}
 				<SafeAreaView style={[styles.header]}>
@@ -139,7 +172,9 @@ export default function HomeScreen() {
 							alignItems: "center",
 							paddingHorizontal: 15,
 						}}>
-						<TouchableOpacity onPress={toggleManagementAcc}>
+						<TouchableOpacity
+							onPress={toggleManagementAcc}
+							style={{ padding: 0 }}>
 							<FontAwesomeIcon
 								icon={faUser}
 								color="#fff"
@@ -175,11 +210,11 @@ export default function HomeScreen() {
 							/>
 						</TouchableOpacity>
 					</View>
-					
+
 					{/* User */}
 					<View style={styles.heloUser}>
 						<Text style={styles.hello}>Xin chào,</Text>
-						<Text style={styles.userName}>TRAN VIET BACH</Text>
+						<Text style={styles.userName}>{userData.name}</Text>
 						<View
 							style={{
 								flexDirection: "row",
@@ -225,7 +260,9 @@ export default function HomeScreen() {
 							<TouchableOpacity style={styles.suport}>
 								<View style={{ flexDirection: "row", alignItems: "center" }}>
 									<Image
-										source={require("../assets/bee.jpg")}
+										source={{
+											uri: "https://lh3.googleusercontent.com/pw/ADCreHe7ZPbvnCZNVJXEQ9DZrTI6rATDo7bMWRnut7MRB1r7lhzlYjL0f_g1PXQDK0yuvu8qhW0kkYJ9uoLUtP5PzRNRNnEX9fHwKQDXp04uoTu3NTXAkDAS93h-co16zk3NZZRBB7ZTetIAyLNgrLHHvpwxHcNOmaPDggqO_Urs6K7rJRPmS4IKZ2G5hORlmyFrJDSotDoPlYh-1xA9n4wUrliTVX85vsnbmG5RPdlld0FALDfAUp2sCQDADeEu3ucu9zlDBGY73NIKj5tOmEcpnj2cCMbiRdkwmIIIV4Aljvd1Ft9E_hLYebVaij2UB_nfBRT6xSohW4j7ffvi3gU2NWFgVof5jMsDDtPVX4pHyChc-IN3drKQQVg5pnuM6dk9LkUtarTVIApz7L1f7z4oC2AML2msY37WGkZmfZNVKP6tqrOzt31meK1OQga9F_xyCVYTWz7sJEOqKwQr9R6_rjf4Tv5WdOts4f23TkMIymR8P9asqLLKdDdru28HbD90iZn3UYKw-gZqp5mkOtv26xJotI2wBikmFb6Rju2Abf7wgCzOMTl3OFUO4riSD_2oc_83srjs5GEtMdDYa3xQk7tHlFBddyxVnAn5m6K3ka4eQLrU18w8R1nTpN3RH5r71WU2J7jTVH0fXxBaGiNhAGzGQ7DyRX3nVyOidV4sMFz2s3ISLBQRFJ0TSfkJxFA5JhwQ10Vz-MRCCoy5YnvWS0FZ7w1iRhz9PMC2e2AnvSTHFlxwMQeCQhE0NR1rPsLL1qJ8rv_wX_s3n9JJ9S0OYUNiyYjcmPa6tlb7k05-KwB5hENL9hB8nmeFjvPUUmdpS_1zP5iTJ20uXUCd4YXr1eynDU4W3j7UZqgw7KsKpqAzRupzoClj12l_u6rvl244n6GUg-AqSmamh0qQVVuRWQ=w916-h916-s-no?authuser=0",
+										}}
 										style={{
 											width: 50,
 											height: 50,
@@ -241,7 +278,7 @@ export default function HomeScreen() {
 												paddingBottom: 3,
 												color: "#0d20c3",
 											}}>
-											BumbleBee Rich
+											MBee Rich
 										</Text>
 										<Text style={{ fontWeight: "300" }}>
 											Trợ thủ tài chính cá nhân
@@ -255,7 +292,7 @@ export default function HomeScreen() {
 										<Text style={{ fontWeight: "700", paddingRight: 5 }}>
 											Tài khoản nguồn
 										</Text>
-										<Text style={{ color: "#b6e1f6" }}>0346331968</Text>
+										<Text style={{ color: "#b6e1f6" }}>{userData.sdt}</Text>
 									</View>
 									<View style={{ flexDirection: "row", marginRight: 2 }}>
 										<Text
@@ -264,7 +301,7 @@ export default function HomeScreen() {
 												fontWeight: "bold",
 												fontSize: 20,
 											}}>
-											{ defaultMoney }
+											{defaultMoney}
 											<Text
 												style={{
 													color: "#c5c7ce",
@@ -346,11 +383,7 @@ export default function HomeScreen() {
 							style={styles.mainFeature}
 							key={index}
 							onPress={() => handlePress(index)}>
-							<FontAwesomeIcon
-								icon={feature.icon}
-								size={35}
-								color="#0d22cc"
-							/>
+							<FontAwesomeIcon icon={feature.icon} size={35} color="#0d22cc" />
 							<Text style={{ fontSize: 16, marginTop: 10 }}>
 								{feature.text}
 							</Text>
@@ -365,7 +398,7 @@ export default function HomeScreen() {
 
 				<View>
 					<View style={styles.market}>
-						{marketItems.map((marketItem, index) => (
+						{marketItemsData.map((marketItem, index) => (
 							<TouchableOpacity
 								key={index}
 								style={{
@@ -374,8 +407,13 @@ export default function HomeScreen() {
 									width: "25%",
 								}}>
 								<Image
-									source={marketItem.image}
-									style={{ width: 40, height: 40, borderRadius: 5 }}
+									source={{ uri: marketItem.image }}
+									style={{
+										width: 40,
+										height: 40,
+										borderRadius: 5,
+										backgroundColor: "#fff",
+									}}
 									resizeMode="contain"
 								/>
 								<Text style={{ fontSize: 11, marginTop: 5 }}>

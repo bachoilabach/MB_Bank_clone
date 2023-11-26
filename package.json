@@ -27,7 +27,8 @@
     "react-native-picker-select": "^8.1.0",
     "react-native-vector-icons": "^10.0.0",
     "react-native-web": "^0.19.9",
-    "react-navigation": "^5.0.0"
+    "react-navigation": "^5.0.0",
+    "vn-num2words": "^1.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

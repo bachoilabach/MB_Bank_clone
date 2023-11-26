@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity, View, Text } from "react-native";
 import HomeScreen from "../../Screens/HomeScreen";
@@ -52,20 +52,23 @@ const screens = [
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = () => {
+const Tabs = ({ route }) => {
 	const navigation = useNavigation();
+	const { name, moneyOwn, sdt } = route.params;
+	console.log(route.params);
 	return (
 		// Thanh ngang dưới màn hình
 		<Tab.Navigator
 			screenOptions={{
 				tabBarShowLabel: false,
 			}}>
-				{/* Từng công cụ */}
+			{/* Từng công cụ */}
 			{screens.map((screen, index) => (
 				<Tab.Screen
 					key={index}
 					name={screen.name}
 					component={screen.component}
+					initialParams={{ name, moneyOwn, sdt }}
 					options={{
 						headerShown: false,
 						tabBarIcon: ({ focused }) => {

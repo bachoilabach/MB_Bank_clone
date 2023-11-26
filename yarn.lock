@@ -8555,6 +8555,11 @@ vlq@^1.0.0:
   resolved "https://registry.npmjs.org/vlq/-/vlq-1.0.1.tgz"
   integrity sha512-gQpnTgkubC6hQgdIcRdYGDSDc+SaujOdyesZQMv6JlfQee/9Mp0Qhnys6WxDWvQnL5WZdT7o2Ul187aSt0Rq+w==
 
+vn-num2words@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/vn-num2words/-/vn-num2words-1.0.4.tgz"
+  integrity sha512-Zjm/TOsYK3kdoylWibXriM9GTLFRS5ACpI2+yqHgltMaIp7/QStHEqBb5M4vfjqz/Xosg3jrT7YVmllJEbY3Vg==
+
 walker@^1.0.7:
   version "1.0.8"
   resolved "https://registry.npmjs.org/walker/-/walker-1.0.8.tgz"

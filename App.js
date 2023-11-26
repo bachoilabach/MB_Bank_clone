@@ -3,12 +3,8 @@ import { View, StyleSheet, SafeAreaView, StatusBar } from "react-native";
 import AppNavigator from "./Navigation/index";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { MoneyProvider } from "./components/MoneyContext/MoneyContext";
-// import HomeScreen from "./Screens/BaiThucHanh/HomeScreen";
-import ConfirmScreen from "./Screens/ConfirmScreen";
-import TakeOTP from "./Screens/TakeOTP";
-import MoneyTransferToAccScreen from "./Screens/MoneyTransferToAccScreen";
-import MoneyTranferScreen from "./Screens/MoneyTranferScreen";
-import HomeScreen from "./Screens/HomeScreen";
+import TransferSuccess from "./Screens/TransferSuccess";
+
 
 
 export default function App() {
@@ -17,9 +13,7 @@ export default function App() {
 			<NavigationContainer>
 				<View style={styles.container}>
 					<AppNavigator />
-					{/* <ConfirmScreen /> */}
-					{/* <TakeOTP/> */}
-					{/* <HomeScreen /> */}
+					{/* <TransferSuccess/> */}
 					<StatusBar barStyle="default" />
 				</View>
 			</NavigationContainer>
@@ -30,8 +24,8 @@ export default function App() {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: "stretch",
-		justifyContent: "center",
+		// alignItems: "stretch",
+		// justifyContent: "center",
 		width: "100%",
 	},
 });

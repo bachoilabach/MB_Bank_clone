@@ -37,33 +37,6 @@ const listBtn = [
 	},
 ];
 
-const inputAccNum = [
-	{
-		nameOfTextInput: "Số tài khoản",
-		placeHolder: "Nhập số tài khoản",
-		textIcon: "STK đã lưu",
-		icon: faAddressCard,
-		keyboardType: "numeric",
-		returnKeyType: "done",
-	},
-	{
-		nameOfTextInput: "Tên tài khoản",
-		placeHolder: "Tên tài khoản",
-		keyboardType: "default",
-	},
-	{
-		nameOfTextInput: "Số tiền",
-		placeHolder: "Nhập số tiền",
-		keyboardType: "number-pad",
-		returnKeyType: "done",
-	},
-	{
-		nameOfTextInput: "Nội dung chuyển khoản",
-		textDefault: "TRAN VIET BACH chuyen khoan",
-		keyboardType: "default",
-	},
-];
-
 const phoneNum = [
 	{
 		nameOfTextInput: "Số điện thoại",
@@ -130,10 +103,23 @@ const BankLogo = [
 	},
 ];
 
-const MoneyTransferToAccScreen = ({ navigation }) => {
-	const { defaultMoney } = useMoney();
+const MoneyTransferToAccScreen = ({ navigation, route }) => {
+	const { name, moneyOwn, sdt } = route.params;
+	const [userData, setUserData] = useState({});
+	
+	const { defaultMoney,setDefaultMoney } = useMoney();
+	setDefaultMoney(userData.moneyOwn)
+	console.log('====================================');
+	console.log((userData.moneyOwn))
+	console.log('====================================');
+	const defaultMoneyString = String(defaultMoney); // Chuỗi số tiền
+	console.log('====================================')
+	console.log(defaultMoneyString);
+	console.log('====================================');
+	const defaultMoneyNumber = parseInt(defaultMoneyString.replace(/,/g, ""), 10);
 	const [isEnabled, setIsEnabled] = useState(false);
 	const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
 
 	const [selectedButton, setSelectedButton] = useState({
 		"TK ngân hàng": true,
@@ -151,20 +137,10 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 		setCurrentTab(buttonName);
 	};
 
-	const [currentTab, setCurrentTab] = useState("TK ngân hàng");
-	let currentList = [];
-	if (currentTab === "TK ngân hàng") {
-		currentList = inputAccNum;
-	} else if (currentTab === "SĐT (MB)") {
-		currentList = phoneNum;
-	} else if (currentTab === "Số thẻ") {
-		currentList = cardNum;
-	}
-
 	// * Danh sách ngân hàng
 	const [showBankList, setShowBankList] = useState(false);
 	const [selectedBank, setSelectedBank] = useState(null);
-	const [bankID,setBankID] = useState(null);
+	const [bankID, setBankID] = useState(null);
 
 	const toggleBankList = () => {
 		setShowBankList(!showBankList);
@@ -173,7 +149,7 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 	// * Chọn ngân hàng
 	const selectBank = (bank) => {
 		setSelectedBank(bank);
-		setBankID(bank.id)
+		setBankID(bank.id);
 		toggleBankList();
 		console.log(bank.id);
 	};
@@ -184,12 +160,6 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 
 	// * Check điều kiện
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
-	// * Thêm state cho từng ô nhập
-	const [stk, setSTK] = useState("");
-	const [nameAcc, setNameAcc] = useState("");
-	const [money, setMoney] = useState("");
-	const [content, setContent] = useState("TRAN VIET BACH chuyen khoan");
 
 	// * Hàm để lấy giá trị từ state theo tên trường nhập
 	const getValueByInputName = (inputName) => {
@@ -215,15 +185,72 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 			money.trim() !== "", // Số tiền
 			content.trim() !== "", // Nội dung chuyển khoản
 		];
-
+		const isAmountGreaterThanOwn = Number(money) <= Number(defaultMoneyNumber);
+		if (!isAmountGreaterThanOwn) {
+			alert("Không đủ tiền để thực hiện giao dịch");
+		}
 		// * Nếu tất cả điều kiện đều đáp ứng, set isButtonDisabled là false
-		setIsButtonDisabled(!conditions.every((condition) => condition));
+		setIsButtonDisabled(!conditions.every((condition) => condition)) ||
+			isAmountGreaterThanOwn;
 	};
 
 	// * Sử dụng useEffect để gọi hàm kiểm tra điều kiện khi có bất kỳ sự thay đổi nào trong các ô nhập
+	
 	useEffect(() => {
 		checkConditions();
+		if (name && moneyOwn && sdt) {
+			setUserData({
+				name: name,
+				moneyOwn: moneyOwn,
+				sdt: sdt,
+			});
+		}
+		// console.log(defaultMoneyNumber===money);
 	}, [selectedBank, stk, nameAcc, money, content]);
+
+	// Input của số tài khoản
+	const inputAccNum = [
+		{
+			nameOfTextInput: "Số tài khoản",
+			placeHolder: "Nhập số tài khoản",
+			textIcon: "STK đã lưu",
+			icon: faAddressCard,
+			keyboardType: "numeric",
+			returnKeyType: "done",
+		},
+		{
+			nameOfTextInput: "Tên tài khoản",
+			placeHolder: "Tên tài khoản",
+			keyboardType: "default",
+		},
+		{
+			nameOfTextInput: "Số tiền",
+			placeHolder: "Nhập số tiền",
+			keyboardType: "number-pad",
+			returnKeyType: "done",
+		},
+		{
+			nameOfTextInput: "Nội dung chuyển khoản",
+			textDefault: `${userData.name} chuyen khoan`,
+			keyboardType: "default",
+		},
+	];
+
+	const [currentTab, setCurrentTab] = useState("TK ngân hàng");
+	let currentList = [];
+	if (currentTab === "TK ngân hàng") {
+		currentList = inputAccNum;
+	} else if (currentTab === "SĐT (MB)") {
+		currentList = phoneNum;
+	} else if (currentTab === "Số thẻ") {
+		currentList = cardNum;
+	}
+
+	// * Thêm state cho từng ô nhập
+	const [stk, setSTK] = useState("");
+	const [nameAcc, setNameAcc] = useState("");
+	const [money, setMoney] = useState("");
+	const [content, setContent] = useState(`${name} chuyen khoan`);
 
 	return (
 		<View style={{ flex: 1 }}>
@@ -254,7 +281,7 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 							{/* Tài khoản */}
 							<View>
 								<Text style={{ color: "#9d9eae", marginBottom: 10 }}>
-									0346331968 - TRAN VIET BACH
+									{userData.sdt} - {userData.name}
 								</Text>
 								<Text style={{ fontWeight: "600", fontSize: 18 }}>
 									{defaultMoney}
@@ -374,7 +401,6 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 									case "Nội dung chuyển khoản":
 										setContent(text);
 										break;
-									// Thêm các trường khác nếu cần
 									default:
 										break;
 								}
@@ -394,6 +420,9 @@ const MoneyTransferToAccScreen = ({ navigation }) => {
 								content,
 								BankLogo,
 								bankID,
+								name: name,
+								moneyOwn: moneyOwn,
+								sdt: sdt,
 							});
 						}}
 						isDisabled={isButtonDisabled}

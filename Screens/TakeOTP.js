@@ -3,29 +3,42 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/GUI/Header/Header";
 import Submit from "../components/GUI/Button/Button";
 import { Alert } from "react-native";
-import { text } from "@fortawesome/fontawesome-svg-core";
 
-const TakeOTP = ({ navigation }) => {
-	const [countdown, setCountdown] = useState(10);
+const TakeOTP = ({ navigation, route }) => {
+	const [countdown, setCountdown] = useState(100);
 	const [isVisible, setIsVisible] = useState(false);
+	const [isButtonDisbled, setIsButtonDisbled] = useState(false);
+	const [countinue, setCountinue] = useState(true);
+
 	const [randomNumbers, setRandomNumbers] = useState(
 		Array.from({ length: 8 }, () => Math.floor(Math.random() * 10))
 	);
+	const { money, nameAcc, stk, selectedBank, content, BankLogo, bankID } =
+		route.params;
+	const { name, moneyOwn, sdt } = route.params || {};
+	const [userData, setUserData] = useState({});
+	useEffect(() => {}, [name, moneyOwn, sdt]);
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setCountdown((prevCountdown) => prevCountdown - 1);
 
-			// Clear the interval when the component unmounts
 			if (countdown === 0) {
 				clearInterval(interval);
 				Alert.alert("Thông báo", "Hết thời gian", [
 					{
-						text: "Quay trở về trang trước",
+						text: "Quay trở về",
 						onPress: () => {
 							navigation.goBack();
 						},
 					},
 				]);
+			}
+			if (name && moneyOwn && sdt) {
+				setUserData({
+					name: name,
+					moneyOwn: moneyOwn,
+					sdt: sdt,
+				});
 			}
 		}, 1000);
 		return () => clearInterval(interval);
@@ -49,7 +62,7 @@ const TakeOTP = ({ navigation }) => {
 					<View
 						style={[
 							styles.row,
-							{ padding: 26, justifyContent: "space-between" },
+							{ padding: 20, justifyContent: "space-between" },
 						]}>
 						{randomNumbers.map((number, index) => (
 							<Text key={index} style={styles.fnsz28}>
@@ -60,7 +73,15 @@ const TakeOTP = ({ navigation }) => {
 				</View>
 
 				{/* Nút nhận mã OTP */}
-				<Submit buttonText={"Nhận OTP"} onPress={handleReceiveOTP} />
+				<Submit
+					buttonText={"Nhận OTP"}
+					onPress={() => {
+						setIsButtonDisbled(true);
+						setCountinue(false);
+						setIsVisible(true);
+					}}
+					isDisabled={isButtonDisbled}
+				/>
 
 				{/* Mã OTP */}
 				<View
@@ -72,8 +93,8 @@ const TakeOTP = ({ navigation }) => {
 					<View
 						style={[
 							styles.row,
-							{justifyContent: "space-between" },
-							isVisible ? {padding: 25} : {padding: 40}
+							{ justifyContent: "space-between" },
+							isVisible ? { padding: 20 } : { padding: 40 },
 						]}>
 						{randomNumbers.map((number, index) => (
 							<Text
@@ -87,7 +108,24 @@ const TakeOTP = ({ navigation }) => {
 						))}
 					</View>
 				</View>
-				<Submit buttonText={"Tiếp tục"} />
+				<Submit
+					buttonText={"Tiếp tục"}
+					isDisabled={countinue}
+					onPress={() => {
+						navigation.replace("TransferSuccess", {
+							money: money /* Giá trị money */,
+							nameAcc: nameAcc /* Giá trị nameAcc */,
+							stk: stk /* Giá trị stk */,
+							selectedBank: selectedBank /* Giá trị selectedBank */,
+							content: content /* Giá trị content */,
+							BankLogo: BankLogo /* Giá trị BankLogo */,
+							bankID: bankID /* Giá trị bankID */,
+							name: name,
+							moneyOwn: moneyOwn,
+							sdt: sdt,
+						});
+					}}
+				/>
 			</View>
 		</View>
 	);
