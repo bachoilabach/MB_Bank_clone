@@ -57,7 +57,7 @@ const BankListModal = memo(
 
 							<FlatList
 								data={bankList}
-								keyExtractor={(item) => item.id.toString()}
+								
 								renderItem={({ item }) => (
 									<TouchableOpacity
 										style={styles.bankListItem}

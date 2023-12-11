@@ -90,7 +90,7 @@ export default function HomeScreen({ route }) {
 	const [userData, setUserData] = useState({});
 	const [marketItemsData, setMarketItemsData] = useState([]);
 	const { defaultMoney,setDefaultMoney } = useMoney();
-	const ipV4 = "192.168.1.11";
+	const ipV4 = "192.168.1.12";
 	useEffect(() => {
 		fetch(`http://${ipV4}:3000/marketItems`, {
 			method: "GET",
