@@ -90,7 +90,7 @@ export default function HomeScreen({ route }) {
 	const [userData, setUserData] = useState({});
 	const [marketItemsData, setMarketItemsData] = useState([]);
 	const { defaultMoney,setDefaultMoney } = useMoney();
-	const ipV4 = "192.168.1.12";
+	const ipV4 = "192.168.1.6";
 	useEffect(() => {
 		fetch(`http://${ipV4}:3000/marketItems`, {
 			method: "GET",
@@ -261,7 +261,7 @@ export default function HomeScreen({ route }) {
 								<View style={{ flexDirection: "row", alignItems: "center" }}>
 									<Image
 										source={{
-											uri: "https://lh3.googleusercontent.com/pw/ADCreHe7ZPbvnCZNVJXEQ9DZrTI6rATDo7bMWRnut7MRB1r7lhzlYjL0f_g1PXQDK0yuvu8qhW0kkYJ9uoLUtP5PzRNRNnEX9fHwKQDXp04uoTu3NTXAkDAS93h-co16zk3NZZRBB7ZTetIAyLNgrLHHvpwxHcNOmaPDggqO_Urs6K7rJRPmS4IKZ2G5hORlmyFrJDSotDoPlYh-1xA9n4wUrliTVX85vsnbmG5RPdlld0FALDfAUp2sCQDADeEu3ucu9zlDBGY73NIKj5tOmEcpnj2cCMbiRdkwmIIIV4Aljvd1Ft9E_hLYebVaij2UB_nfBRT6xSohW4j7ffvi3gU2NWFgVof5jMsDDtPVX4pHyChc-IN3drKQQVg5pnuM6dk9LkUtarTVIApz7L1f7z4oC2AML2msY37WGkZmfZNVKP6tqrOzt31meK1OQga9F_xyCVYTWz7sJEOqKwQr9R6_rjf4Tv5WdOts4f23TkMIymR8P9asqLLKdDdru28HbD90iZn3UYKw-gZqp5mkOtv26xJotI2wBikmFb6Rju2Abf7wgCzOMTl3OFUO4riSD_2oc_83srjs5GEtMdDYa3xQk7tHlFBddyxVnAn5m6K3ka4eQLrU18w8R1nTpN3RH5r71WU2J7jTVH0fXxBaGiNhAGzGQ7DyRX3nVyOidV4sMFz2s3ISLBQRFJ0TSfkJxFA5JhwQ10Vz-MRCCoy5YnvWS0FZ7w1iRhz9PMC2e2AnvSTHFlxwMQeCQhE0NR1rPsLL1qJ8rv_wX_s3n9JJ9S0OYUNiyYjcmPa6tlb7k05-KwB5hENL9hB8nmeFjvPUUmdpS_1zP5iTJ20uXUCd4YXr1eynDU4W3j7UZqgw7KsKpqAzRupzoClj12l_u6rvl244n6GUg-AqSmamh0qQVVuRWQ=w916-h916-s-no?authuser=0",
+											uri: "https://github.com/bachoilabach/MB_Bank_Img/blob/main/bee.png?raw=true",
 										}}
 										style={{
 											width: 50,

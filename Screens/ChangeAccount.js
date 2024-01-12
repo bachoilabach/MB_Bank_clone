@@ -71,7 +71,7 @@ const ChangeAccount = () => {
 		navigation.navigate("CreateAccount");
 	};
 
-	const ipV4 = "192.168.1.12";
+	const ipV4 = "192.168.1.6";
 	useEffect(() => {
 		fetch(`http://${ipV4}:3000/accounts/${phoneNumber}`, {
 			method: "GET",

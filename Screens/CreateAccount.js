@@ -22,7 +22,7 @@ const CreateAccount = ({ navigation }) => {
 	// * check điều kiện
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-	const ipV4 = "192.168.1.12";
+	const ipV4 = "192.168.1.6";
 
 	useEffect(() => {
 		if (name && phone && password && confirmPassword) {
@@ -33,17 +33,17 @@ const CreateAccount = ({ navigation }) => {
 	}, [name, phone, password, confirmPassword]);
 	const handleButtonPress = async () => {
 		if (password !== confirmPassword) {
-			//*  Nếu mật khẩu và xác nhận mật khẩu không trùng khớp, hiển thị thông báo
 			setError("*Mật khẩu và xác nhận mật khẩu không trùng khớp");
 			return;
 		}
-		// Kiểm tra xem số điện thoại đã tồn tại trong cơ sở dữ liệu hay chưa
+		//* Kiểm tra xem số điện thoại đã tồn tại trong cơ sở dữ liệu hay chưa
 		const checkAccountResponse = await fetch(
 			`http://${ipV4}:3000/accounts/${phone}`
 		);
+		
 		const existingAccount = await checkAccountResponse.json();
-
-		if (existingAccount) {
+		
+		if (!existingAccount) {
 			console.log("Tài khoản đã tồn tại");
 			Alert.alert("Thông báo", "Tài khoản này đã tồn tại", [
 				{

@@ -15,7 +15,7 @@ const ConfirmScreen = ({ route }) => {
 	const moneyNum = Number(money);
 	const moneyString = moneyNum.toLocaleString('en-US');
 	console.log(moneyString);
-	const moneyToWords = VNnum2words(moneyNum)
+	const moneyToWords = VNnum2words(moneyNum);
 	const detail = [
 		{
 			tit: "Phí giao dịch",

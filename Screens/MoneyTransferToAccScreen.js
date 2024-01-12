@@ -194,7 +194,6 @@ const MoneyTransferToAccScreen = ({ navigation, route }) => {
 			isAmountGreaterThanOwn;
 	};
 
-	// * Sử dụng useEffect để gọi hàm kiểm tra điều kiện khi có bất kỳ sự thay đổi nào trong các ô nhập
 	
 	useEffect(() => {
 		checkConditions();
